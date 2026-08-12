@@ -18,7 +18,7 @@ export default defineConfig({
   ],
   outputDir: "qa-artifacts/test-results",
   use: {
-    baseURL: `http://127.0.0.1:${port}`,
+    baseURL: process.env.PORTFOLIO_QA_BASE_URL || `http://127.0.0.1:${port}`,
     actionTimeout: 8_000,
     navigationTimeout: 30_000,
     screenshot: "only-on-failure",

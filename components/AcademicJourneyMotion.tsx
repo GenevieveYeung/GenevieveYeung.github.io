@@ -179,6 +179,7 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
             <circle className="academic-journey-trajectory-dot academic-journey-trajectory-dot--parkin" cx="844" cy="272" r="4" />
           </svg>
 
+          <div className="academic-journey-polyu-block">
           <div className="academic-journey-foreground academic-journey-foreground--foundation">
             <div className="academic-journey-school-meta">
               <Image src="/brand/polyu-logo-transparent.png" alt="The Hong Kong Polytechnic University logo" width={132} height={40} />
@@ -196,6 +197,7 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
               triggerLabel="View degree credential"
             />
           </div>
+          </div>
 
           <div className="academic-journey-bridge-zone" aria-label="Secondary Major in Artificial Intelligence and Data Analytics">
             <span>THE BRIDGE · SECONDARY MAJOR IN</span>
@@ -211,7 +213,8 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
             <div className="academic-journey-university">The Hong Kong University of Science and Technology</div>
           </div>
 
-          <div className="academic-journey-milestones" aria-label="Undergraduate milestones">
+          <div className="academic-journey-polyu-block academic-journey-polyu-block--milestones">
+          <div className="academic-journey-milestones" aria-label="Undergraduate milestones associated with PolyU">
             <div className="academic-journey-milestone academic-journey-milestone--deans" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("deans")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("deans")} onBlur={clearMilestone}>
               <Award size={14} aria-hidden="true" /><span>ACADEMIC RECOGNITION</span><strong>Dean’s List</strong><small>2023–24 · 2024–25</small>
             </div>
@@ -242,6 +245,7 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
                 triggerLabel="View award certificate"
               />
             </div>
+          </div>
           </div>
         </div>
 

@@ -28,7 +28,6 @@ function ProjectDetails({ project, cover, locale }: { project: (typeof projectLi
     <ul className="project-highlights" aria-label={labels.highlights}>{localized.highlights.map(highlight => <li key={highlight}>{highlight}</li>)}</ul>
     {localized.results?.length ? <div className="project-results">{localized.results.map(result => <div key={`${result.value}-${result.label}`}><strong>{result.value}</strong><span>{result.label}</span></div>)}</div> : null}
     {localized.award && <div className="project-award">{localized.award}</div>}
-    {localized.paper && <a className="project-paper-link" href={localized.paper.href} target="_blank" rel="noreferrer">{localized.paper.label} ↗</a>}
   </div>;
 }
 

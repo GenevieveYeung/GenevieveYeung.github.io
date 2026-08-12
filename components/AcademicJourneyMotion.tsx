@@ -49,6 +49,7 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
   const [activeMilestone, setActiveMilestone] = useState<MilestoneKey | null>(null);
   const { copy, locale } = useLanguage();
   const academicMajorLabel = locale === "zh-CN" ? "第二专业" : locale === "zh-HK" ? "第二專業" : copy.academic.majorLabel;
+  const wcsstPaperLabel = locale === "zh-CN" ? "阅读 WCSST 2025 论文" : locale === "zh-HK" ? "閱讀 WCSST 2025 論文" : "Read the WCSST 2025 paper";
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -232,7 +233,7 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
               <Award size={14} aria-hidden="true" /><span>{copy.academic.recognition}</span><strong>{copy.academic.deans}</strong><small>{copy.academic.deansPeriod}</small>
             </div>
             <div className="academic-journey-milestone academic-journey-milestone--wcsst" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("wcsst")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("wcsst")} onBlur={clearMilestone}>
-              <FileText size={14} aria-hidden="true" /><span>{copy.academic.research}</span><strong>WCSST 2025</strong><small>{copy.academic.research}</small>
+              <FileText size={14} aria-hidden="true" /><span>{copy.academic.research}</span><strong>WCSST 2025</strong><small>{copy.academic.research}</small><a className="academic-paper-link" href="/research/wcsst-2025-vgrf-koa.pdf" target="_blank" rel="noreferrer">{wcsstPaperLabel} ↗</a>
             </div>
             <div className="academic-journey-milestone academic-journey-milestone--brain" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("brain")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("brain")} onBlur={clearMilestone}>
               <Brain size={14} aria-hidden="true" /><span>{copy.academic.brain}</span><strong>{copy.academic.prize}</strong>
@@ -266,7 +267,7 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
           <div className="academic-journey-final-heading"><span>UNDERGRADUATE HIGHLIGHTS</span><small>POLYU · 2022–2026</small><i /></div>
           <div className="academic-journey-final-grid">
             <div className="academic-journey-final-item"><Award size={16} aria-hidden="true" /><div><span>ACADEMIC RECOGNITION</span><strong>Dean’s List</strong><small>2023–24 · 2024–25</small></div></div>
-            <div className="academic-journey-final-item"><FileText size={16} aria-hidden="true" /><div><span>FIRST-AUTHOR RESEARCH</span><strong>WCSST 2025</strong></div></div>
+            <div className="academic-journey-final-item"><FileText size={16} aria-hidden="true" /><div><span>FIRST-AUTHOR RESEARCH</span><strong>WCSST 2025</strong><a className="academic-paper-link" href="/research/wcsst-2025-vgrf-koa.pdf" target="_blank" rel="noreferrer">{wcsstPaperLabel} ↗</a></div></div>
             <div className="academic-journey-final-item"><Brain size={16} aria-hidden="true" /><div><span>BRAIN SCIENCE RESEARCH</span><strong>Third Prize · English Group</strong></div></div>
             <div className="academic-journey-final-item"><Trophy size={16} aria-hidden="true" /><div><span>PARKINCARE</span><strong>Best Engineered Product Award</strong></div></div>
           </div>
@@ -310,7 +311,7 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
                   <Award size={14} aria-hidden="true" /><div><span>{copy.academic.recognition}</span><strong>{copy.academic.deans}</strong><small>{copy.academic.deansPeriod}</small></div>
                 </article>
                 <article className="academic-vertical-milestone academic-vertical-milestone--wcsst" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("wcsst")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("wcsst")} onBlur={clearMilestone}>
-                  <FileText size={14} aria-hidden="true" /><div><span>{copy.academic.research}</span><strong>WCSST 2025</strong><small>{copy.academic.research}</small></div>
+                  <FileText size={14} aria-hidden="true" /><div><span>{copy.academic.research}</span><strong>WCSST 2025</strong><small>{copy.academic.research}</small><a className="academic-paper-link" href="/research/wcsst-2025-vgrf-koa.pdf" target="_blank" rel="noreferrer">{wcsstPaperLabel} ↗</a></div>
                 </article>
                 <article className="academic-vertical-milestone academic-vertical-milestone--brain" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("brain")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("brain")} onBlur={clearMilestone}>
                   <Brain size={14} aria-hidden="true" /><div><span>{copy.academic.brain}</span><strong>{copy.academic.prize}</strong><CredentialViewer icon="award" title={copy.academic.brain} subtitle={copy.academic.prize} image="/credentials/brain-science-award.jpeg" imageWidth={1179} imageHeight={798} alt="Certificate for Third Prize in the English Group at the Guangdong-Hong Kong-Macao Greater Bay Area Brain Science Forum" triggerLabel={copy.academic.awardCredential} /></div>

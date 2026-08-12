@@ -47,8 +47,10 @@ export default function ResponsiveNav() {
         <div className="nav-contact">
           <CopyContactButton icon="phone" value="+852 6080 4041" copiedLabel={copy.nav.phoneCopied} ariaLabel={copy.nav.phone} />
           <CopyContactButton icon="mail" value="genevieveyeung@gmail.com" copiedLabel={copy.nav.emailCopied} ariaLabel={copy.nav.email} />
-          <ExternalNavLink href={links.linkedin} label={copy.nav.linkedin}><Linkedin size={16} /></ExternalNavLink>
-          <ExternalNavLink href={links.jobsdb} label={copy.nav.jobsdb}><BriefcaseBusiness size={16} /></ExternalNavLink>
+          <span className="nav-professional-links">
+            <ExternalNavLink href={links.linkedin} label={copy.nav.linkedin}><Linkedin size={16} /></ExternalNavLink>
+            <ExternalNavLink href={links.jobsdb} label={copy.nav.jobsdb}><BriefcaseBusiness size={16} /></ExternalNavLink>
+          </span>
           {languageControls}
         </div>
         <button

@@ -2298,6 +2298,8 @@ body{overflow-x:hidden}
 .nav-shell .nav-contact{display:flex;align-items:center;justify-content:flex-end;gap:clamp(9px,1.25vw,17px);margin:0;min-width:0}
 .nav-shell .nav-contact .top-contact-copy{white-space:nowrap}
 .nav-shell .nav-contact .external-link{display:inline-flex;align-items:center;justify-content:center;color:var(--blue)}
+.nav-professional-links{display:inline-flex;align-items:center;gap:clamp(9px,1.25vw,17px);flex:none}
+.nav-shell .nav-contact > .language-switcher{margin-left:clamp(4px,.8vw,10px);padding-left:clamp(10px,1.2vw,16px);border-left:1px solid rgba(138,151,169,.28)}
 .nav-menu-toggle,.compact-navigation-menu{display:none}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 

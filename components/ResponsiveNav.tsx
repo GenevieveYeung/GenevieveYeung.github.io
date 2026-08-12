@@ -5,14 +5,8 @@ import { BriefcaseBusiness, Linkedin, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import CopyContactButton from "@/components/CopyContactButton";
 import { links } from "@/data/portfolio";
-
-const navItems = [
-  ["#work", "Work Experience"],
-  ["#projects", "Project Experience"],
-  ["#education", "Education"],
-  ["#beyond-work-journal", "Beyond Work"],
-  ["#contact", "Contact"],
-] as const;
+import { localeLabels, localeNames, type Locale } from "@/data/i18n";
+import { useLanguage } from "@/components/LanguageProvider";
 
 function ExternalNavLink({ href, label, children }: { href?: string; label: string; children: React.ReactNode }) {
   if (!href) return null;
@@ -21,6 +15,17 @@ function ExternalNavLink({ href, label, children }: { href?: string; label: stri
 
 export default function ResponsiveNav() {
   const [open, setOpen] = useState(false);
+  const { copy, locale, setLocale } = useLanguage();
+  const navItems = [
+    ["#work", copy.nav.work], ["#projects", copy.nav.projects], ["#education", copy.nav.education], ["#beyond-work-journal", copy.nav.beyond], ["#contact", copy.nav.contact],
+  ] as const;
+
+  const languageControls = <div className="language-switcher" aria-label={copy.labels.languageSelector}>
+    {(Object.keys(localeLabels) as Locale[]).map((nextLocale, index) => <span key={nextLocale} className="language-switcher__item">
+      {index > 0 && <span className="language-switcher__separator" aria-hidden="true">·</span>}
+      <button type="button" className={locale === nextLocale ? "is-active" : ""} aria-pressed={locale === nextLocale} aria-label={`${copy.labels.switchTo} ${localeNames[nextLocale]}`} onClick={() => setLocale(nextLocale)}>{localeLabels[nextLocale]}</button>
+    </span>)}
+  </div>;
 
   useEffect(() => {
     const close = () => setOpen(false);
@@ -40,32 +45,34 @@ export default function ResponsiveNav() {
           {navItems.map(([href, label]) => <Link key={href} href={href}>{label}</Link>)}
         </div>
         <div className="nav-contact">
-          <CopyContactButton icon="phone" value="+852 6080 4041" copiedLabel="Phone copied" ariaLabel="Copy phone number" />
-          <CopyContactButton icon="mail" value="genevieveyeung@gmail.com" copiedLabel="Email copied" ariaLabel="Copy email address" />
-          <ExternalNavLink href={links.linkedin} label="LinkedIn"><Linkedin size={16} /></ExternalNavLink>
-          <ExternalNavLink href={links.jobsdb} label="JobsDB"><BriefcaseBusiness size={16} /></ExternalNavLink>
+          <CopyContactButton icon="phone" value="+852 6080 4041" copiedLabel={copy.nav.phoneCopied} ariaLabel={copy.nav.phone} />
+          <CopyContactButton icon="mail" value="genevieveyeung@gmail.com" copiedLabel={copy.nav.emailCopied} ariaLabel={copy.nav.email} />
+          <ExternalNavLink href={links.linkedin} label={copy.nav.linkedin}><Linkedin size={16} /></ExternalNavLink>
+          <ExternalNavLink href={links.jobsdb} label={copy.nav.jobsdb}><BriefcaseBusiness size={16} /></ExternalNavLink>
+          {languageControls}
         </div>
         <button
           className="nav-menu-toggle"
           type="button"
-          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={open ? copy.nav.close : copy.nav.open}
           aria-expanded={open}
           aria-controls="compact-navigation-menu"
           onClick={() => setOpen(value => !value)}
         >
           {open ? <X size={18} aria-hidden="true" /> : <span aria-hidden="true"><i /><i /><i /></span>}
-          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+          <span className="sr-only">{open ? copy.nav.close : copy.nav.open}</span>
         </button>
         <div id="compact-navigation-menu" className={`compact-navigation-menu${open ? " is-open" : ""}`}>
           <div className="compact-navigation-links">
             {navItems.map(([href, label]) => <Link key={href} href={href}>{label}</Link>)}
           </div>
           <div className="compact-navigation-contact">
-            <CopyContactButton icon="phone" value="+852 6080 4041" copiedLabel="Phone copied" ariaLabel="Copy phone number" />
-            <CopyContactButton icon="mail" value="genevieveyeung@gmail.com" copiedLabel="Email copied" ariaLabel="Copy email address" />
-            <ExternalNavLink href={links.linkedin} label="LinkedIn"><Linkedin size={16} /></ExternalNavLink>
-            <ExternalNavLink href={links.jobsdb} label="JobsDB"><BriefcaseBusiness size={16} /></ExternalNavLink>
+            <CopyContactButton icon="phone" value="+852 6080 4041" copiedLabel={copy.nav.phoneCopied} ariaLabel={copy.nav.phone} />
+            <CopyContactButton icon="mail" value="genevieveyeung@gmail.com" copiedLabel={copy.nav.emailCopied} ariaLabel={copy.nav.email} />
+            <ExternalNavLink href={links.linkedin} label={copy.nav.linkedin}><Linkedin size={16} /></ExternalNavLink>
+            <ExternalNavLink href={links.jobsdb} label={copy.nav.jobsdb}><BriefcaseBusiness size={16} /></ExternalNavLink>
           </div>
+          <div className="compact-navigation-language">{languageControls}</div>
         </div>
       </div>
     </nav>

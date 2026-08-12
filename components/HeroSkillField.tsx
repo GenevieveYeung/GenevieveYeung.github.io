@@ -2,13 +2,14 @@
 
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type Skill = { label: string; position: string; strength: number; phase: string };
 
-const skills: Skill[] = [
-  { label: "Machine Learning", position: "skill-chip--machine-learning", strength: 0.9, phase: "skill-chip-inner--one" },
-  { label: "Applied AI", position: "skill-chip--applied-ai", strength: 0.85, phase: "skill-chip-inner--two" },
-  { label: "Data Automation", position: "skill-chip--data-automation", strength: 1, phase: "skill-chip-inner--three" },
+const skillLayout = [
+  { position: "skill-chip--machine-learning", strength: 0.9, phase: "skill-chip-inner--one" },
+  { position: "skill-chip--applied-ai", strength: 0.85, phase: "skill-chip-inner--two" },
+  { position: "skill-chip--data-automation", strength: 1, phase: "skill-chip-inner--three" },
 ];
 
 function SkillChip({ skill, pointerX, pointerY, reducedMotion, isVisible }: { skill: Skill; pointerX: ReturnType<typeof useSpring>; pointerY: ReturnType<typeof useSpring>; reducedMotion: boolean; isVisible: boolean }) {
@@ -28,6 +29,8 @@ function SkillChip({ skill, pointerX, pointerY, reducedMotion, isVisible }: { sk
 }
 
 export default function HeroSkillField() {
+  const { copy } = useLanguage();
+  const skills: Skill[] = copy.hero.skills.map((label, index) => ({ label, ...skillLayout[index] }));
   const fieldRef = useRef<HTMLDivElement | null>(null);
   const reducedMotionPreference = useReducedMotion();
   const reducedMotion = reducedMotionPreference ?? false;
@@ -58,7 +61,7 @@ export default function HeroSkillField() {
   }
 
   return (
-    <div ref={fieldRef} className={`skill-field${isVisible ? "" : " is-offscreen"}`} onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave} aria-label="Selected technical skills">
+    <div ref={fieldRef} className={`skill-field${isVisible ? "" : " is-offscreen"}`} onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave} aria-label={copy.labels.selectedSkills}>
       {skills.map(skill => <SkillChip key={skill.label} skill={skill} pointerX={pointerX} pointerY={pointerY} reducedMotion={reducedMotion} isVisible={isVisible} />)}
     </div>
   );

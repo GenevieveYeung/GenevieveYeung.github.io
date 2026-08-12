@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Award, Brain, FileText, GraduationCap, Trophy } from "lucide-react";
 import Image from "next/image";
 import CredentialViewer from "@/components/CredentialViewer";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type AcademicJourneyMotionProps = HTMLAttributes<HTMLElement> & { children?: ReactNode };
 type MilestoneKey = "deans" | "wcsst" | "brain" | "parkin";
@@ -40,6 +41,7 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
   const sectionRef = useRef<HTMLElement | null>(null);
   const stickyRef = useRef<HTMLDivElement | null>(null);
   const [activeMilestone, setActiveMilestone] = useState<MilestoneKey | null>(null);
+  const { copy } = useLanguage();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -159,9 +161,9 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
       <div ref={stickyRef} className="academic-journey-sticky">
         <div className="academic-journey-desktop-scene">
         <div className="academic-journey-heading">
-          <div className="eyebrow">ACADEMIC JOURNEY</div>
-          <h2 id="academic-journey-heading">The academic foundation behind my work.</h2>
-          <p className="academic-journey-cue">Scroll to trace the journey <span aria-hidden="true">↓</span></p>
+          <div className="eyebrow">{copy.academic.eyebrow}</div>
+          <h2 id="academic-journey-heading">{copy.academic.title}</h2>
+          <p className="academic-journey-cue">{copy.academic.cue} <span aria-hidden="true">↓</span></p>
         </div>
 
         <div className="academic-journey-scene">
@@ -186,64 +188,64 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
               <Image src="/brand/polyu-logo-transparent.png" alt="The Hong Kong Polytechnic University logo" width={132} height={40} />
               <div><strong>POLYU</strong><span>Aug 2022 – Jun 2026</span></div>
             </div>
-            <div className="academic-journey-discipline">BSc Biomedical Engineering</div>
-            <div className="academic-journey-university">The Hong Kong Polytechnic University</div>
-            <div className="academic-journey-achievement"><GraduationCap size={16} aria-hidden="true" /><strong>First Class Honours</strong><span>·</span><span>GPA 3.67 / 4.30</span></div>
+              <div className="academic-journey-discipline">{copy.academic.polyuDegree}</div>
+            <div className="academic-journey-university">{copy.academic.polyu}</div>
+              <div className="academic-journey-achievement"><GraduationCap size={16} aria-hidden="true" /><strong>{copy.academic.honours}</strong><span>·</span><span>{copy.academic.gpa}</span></div>
             <CredentialViewer
               icon="degree"
               title="POLYU DEGREE CREDENTIAL"
-              subtitle="BSc Biomedical Engineering · Secondary Major in Artificial Intelligence & Data Analytics · First Class Honours"
+              subtitle={`${copy.academic.polyuDegree} · ${copy.academic.major} · ${copy.academic.honours}`}
               image="/credentials/polyu-degree-certificate.png"
               alt="PolyU degree certificate for Yeung Siu Kwun"
-              triggerLabel="View degree credential"
+              triggerLabel={copy.academic.degreeCredential}
             />
           </div>
           </div>
 
           <div className="academic-journey-bridge-zone" aria-label="Secondary Major in Artificial Intelligence and Data Analytics">
-            <span>THE BRIDGE · SECONDARY MAJOR IN</span>
-            <strong>Artificial Intelligence &amp; Data Analytics</strong>
+            <span>{copy.academic.bridge}</span>
+            <strong>{copy.academic.major}</strong>
           </div>
 
           <div className="academic-journey-foreground academic-journey-foreground--specialization">
             <div className="academic-journey-school-meta">
               <Image src="/brand/hkust-logo-transparent.png" alt="The Hong Kong University of Science and Technology logo" width={132} height={40} />
-              <div><strong>HKUST</strong><span>Sep 2026 – Expected 2027</span></div>
+              <div><strong>HKUST</strong><span>{copy.academic.periodHkust}</span></div>
             </div>
-            <div className="academic-journey-discipline academic-journey-discipline--ai">MSc Artificial Intelligence</div>
-            <div className="academic-journey-university">The Hong Kong University of Science and Technology</div>
+            <div className="academic-journey-discipline academic-journey-discipline--ai">{copy.academic.masters}</div>
+            <div className="academic-journey-university">{copy.academic.hkust}</div>
           </div>
 
           <div className="academic-journey-polyu-block academic-journey-polyu-block--milestones">
           <div className="academic-journey-milestones" aria-label="Undergraduate milestones associated with PolyU">
             <div className="academic-journey-milestone academic-journey-milestone--deans" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("deans")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("deans")} onBlur={clearMilestone}>
-              <Award size={14} aria-hidden="true" /><span>ACADEMIC RECOGNITION</span><strong>Dean’s List</strong><small>2023–24 · 2024–25</small>
+              <Award size={14} aria-hidden="true" /><span>{copy.academic.recognition}</span><strong>{copy.academic.deans}</strong><small>{copy.academic.deansPeriod}</small>
             </div>
             <div className="academic-journey-milestone academic-journey-milestone--wcsst" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("wcsst")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("wcsst")} onBlur={clearMilestone}>
-              <FileText size={14} aria-hidden="true" /><span>FIRST-AUTHOR RESEARCH</span><strong>WCSST 2025</strong><small>First-author Research</small>
+              <FileText size={14} aria-hidden="true" /><span>{copy.academic.research}</span><strong>WCSST 2025</strong><small>{copy.academic.research}</small>
             </div>
             <div className="academic-journey-milestone academic-journey-milestone--brain" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("brain")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("brain")} onBlur={clearMilestone}>
-              <Brain size={14} aria-hidden="true" /><span>BRAIN SCIENCE RESEARCH</span><strong>Third Prize · English Group</strong>
+              <Brain size={14} aria-hidden="true" /><span>{copy.academic.brain}</span><strong>{copy.academic.prize}</strong>
               <CredentialViewer
                 icon="award"
-                title="BRAIN SCIENCE RESEARCH"
-                subtitle="Third Prize · English Group"
+                title={copy.academic.brain}
+                subtitle={copy.academic.prize}
                 image="/credentials/brain-science-award.jpeg"
                 imageWidth={1179}
                 imageHeight={798}
                 alt="Certificate for Third Prize in the English Group at the Guangdong-Hong Kong-Macao Greater Bay Area Brain Science Forum"
-                triggerLabel="View award certificate"
+                triggerLabel={copy.academic.awardCredential}
               />
             </div>
             <div className="academic-journey-milestone academic-journey-milestone--parkin" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("parkin")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("parkin")} onBlur={clearMilestone}>
-              <Trophy size={14} aria-hidden="true" /><span>PARKINCARE</span><strong>Best Engineered Product Award</strong>
+              <Trophy size={14} aria-hidden="true" /><span>{copy.academic.parkin}</span><strong>{copy.academic.award}</strong>
               <CredentialViewer
                 icon="award"
-                title="BEST ENGINEERED PRODUCT AWARD"
+                title={copy.academic.award}
                 subtitle="ParkinCare · Service-learning Project Exhibition · 16 April 2025"
                 image="/credentials/parkincare-best-engineered-product-award.png"
                 alt="Best Engineered Product Award certificate for the ParkinCare Parkinson Detection Game"
-                triggerLabel="View award certificate"
+                triggerLabel={copy.academic.awardCredential}
               />
             </div>
           </div>
@@ -263,8 +265,8 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
 
         <div className="academic-journey-responsive-ui">
           <div className="academic-journey-responsive-heading">
-            <div className="eyebrow">ACADEMIC JOURNEY</div>
-            <h2>The academic foundation behind my work.</h2>
+          <div className="eyebrow">{copy.academic.eyebrow}</div>
+            <h2>{copy.academic.title}</h2>
           </div>
           <aside className="academic-responsive-years" aria-hidden="true">
             {yearSequence.map(({ year }) => (
@@ -274,8 +276,8 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
           <div className="academic-responsive-content">
             {children}
             <div className="academic-responsive-bridge" aria-label="Secondary Major in Artificial Intelligence and Data Analytics">
-              <span>THE BRIDGE · SECONDARY MAJOR IN</span>
-              <strong>Artificial Intelligence &amp; Data Analytics</strong>
+              <span>{copy.academic.bridge}</span>
+              <strong>{copy.academic.major}</strong>
             </div>
           </div>
         </div>

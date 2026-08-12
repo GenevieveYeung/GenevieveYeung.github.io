@@ -4,6 +4,7 @@ import { GraduationCap, Trophy, X } from "lucide-react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useEffect, useId, useRef, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type CredentialViewerProps = {
   title: string;
@@ -21,6 +22,7 @@ export default function CredentialViewer({ title, subtitle, image, alt, triggerL
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
+  const { copy } = useLanguage();
 
   useEffect(() => {
     if (!open) return;
@@ -64,11 +66,11 @@ export default function CredentialViewer({ title, subtitle, image, alt, triggerL
       <div className="credential-lightbox__dialog" role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <div className="credential-lightbox__header">
           <div>
-            <span className="credential-lightbox__kicker">SUPPORTING DOCUMENT</span>
+            <span className="credential-lightbox__kicker">{copy.academic.supportingDocument}</span>
             <h2 id={titleId}>{title}</h2>
             <p>{subtitle}</p>
           </div>
-          <button ref={closeRef} className="credential-lightbox__close" type="button" aria-label="Close credential viewer" onClick={() => setOpen(false)}>
+          <button ref={closeRef} className="credential-lightbox__close" type="button" aria-label={copy.academic.closeCredential} onClick={() => setOpen(false)}>
             <X size={20} aria-hidden="true" />
           </button>
         </div>

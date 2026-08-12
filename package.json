@@ -9,6 +9,7 @@
     "lint": "next lint",
     "qa": "npm run build && node scripts/run-portfolio-qa.cjs --static",
     "qa:static": "npm run build && node scripts/run-portfolio-qa.cjs --static",
+    "qa:multilingual": "npm run build && node scripts/run-portfolio-qa.cjs --static tests/multilingual.spec.ts",
     "qa:headed": "npm run build && node scripts/run-portfolio-qa.cjs --static --headed",
     "qa:report": "playwright show-report qa-artifacts/report"
   },

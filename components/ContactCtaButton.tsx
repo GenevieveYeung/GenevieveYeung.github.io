@@ -2,6 +2,7 @@
 
 import { Check, Mail, Phone } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type ContactCtaButtonProps = {
   kind: "phone" | "email";
@@ -25,7 +26,8 @@ const contactDetails = {
 
 export default function ContactCtaButton({ kind, label, compact = false, dataTestId }: ContactCtaButtonProps) {
   const [copied, setCopied] = useState(false);
-  const detail = contactDetails[kind];
+  const { copy } = useLanguage();
+  const detail = { ...contactDetails[kind], copiedLabel: kind === "phone" ? copy.nav.phoneCopied : copy.nav.emailCopied, ariaLabel: kind === "phone" ? copy.nav.phone : copy.nav.email };
   const Icon = kind === "phone" ? Phone : Mail;
 
   async function copyContact() {

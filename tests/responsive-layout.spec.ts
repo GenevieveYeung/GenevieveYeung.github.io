@@ -108,7 +108,6 @@ test("narrow viewport layout remains one responsive composition", async ({ brows
           compactVisible: visible(compact),
           desktopHidden: desktop ? getComputedStyle(desktop).display === "none" : false,
           yearRailVisible: visible(years),
-          activeYearVisible: visible(section?.querySelector<HTMLElement>('[data-testid="academic-active-year"]')),
           yearCount: section?.querySelectorAll(".academic-vertical-year").length ?? 0,
           curveVisible: visible(section?.querySelector<HTMLElement>(".academic-vertical-curve")),
           journeyVisible: visible(journey),
@@ -121,7 +120,7 @@ test("narrow viewport layout remains one responsive composition", async ({ brows
       });
       expect(compactState.compactVisible, `compact Academic UI missing at ${viewport.width}px`).toBe(true);
       expect(compactState.desktopHidden, `desktop Academic scene remains at ${viewport.width}px`).toBe(true);
-      expect(compactState.activeYearVisible, `active academic year missing at ${viewport.width}px`).toBe(true);
+      expect(compactState.yearRailVisible, `vertical academic year rail missing at ${viewport.width}px`).toBe(true);
       expect(compactState.yearCount, `academic year rail incomplete at ${viewport.width}px`).toBe(6);
       expect(compactState.curveVisible, `vertical academic curve missing at ${viewport.width}px`).toBe(true);
       expect(compactState.journeyVisible, `vertical academic journey missing at ${viewport.width}px`).toBe(true);

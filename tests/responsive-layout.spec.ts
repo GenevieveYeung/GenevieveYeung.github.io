@@ -97,17 +97,22 @@ test("narrow viewport layout remains one responsive composition", async ({ brows
         const section = document.querySelector<HTMLElement>('[data-testid="education-section"]');
         const compact = section?.querySelector<HTMLElement>(".academic-journey-responsive-ui");
         const desktop = section?.querySelector<HTMLElement>(".academic-journey-desktop-scene");
-        const years = section?.querySelector<HTMLElement>(".academic-responsive-years");
-        const polyu = section?.querySelector<HTMLElement>(".academic-path-card--polyu");
-        const recognition = section?.querySelector<HTMLElement>(".academic-highlights-compact");
+        const years = section?.querySelector<HTMLElement>(".academic-vertical-year-rail");
+        const journey = section?.querySelector<HTMLElement>(".academic-vertical-journey");
+        const polyu = section?.querySelector<HTMLElement>(".academic-vertical-stage--polyu");
+        const recognition = section?.querySelector<HTMLElement>(".academic-vertical-milestones");
         const bridge = section?.querySelector<HTMLElement>(".academic-responsive-bridge");
-        const hkust = section?.querySelector<HTMLElement>(".academic-path-card--hkust");
+        const hkust = section?.querySelector<HTMLElement>(".academic-vertical-stage--hkust");
         const visible = (element: HTMLElement | null) => Boolean(element && getComputedStyle(element).display !== "none" && element.getBoundingClientRect().height > 0);
         return {
           compactVisible: visible(compact),
           desktopHidden: desktop ? getComputedStyle(desktop).display === "none" : false,
-          yearRailHidden: years ? getComputedStyle(years).display === "none" : false,
-          order: [polyu, recognition, bridge, hkust].map(element => element?.getBoundingClientRect().top ?? -1),
+          yearRailVisible: visible(years),
+          yearCount: section?.querySelectorAll(".academic-vertical-year").length ?? 0,
+          curveVisible: visible(section?.querySelector<HTMLElement>(".academic-vertical-curve")),
+          journeyVisible: visible(journey),
+          bridge: bridge ? getComputedStyle(bridge).display : "none",
+          order: [polyu, recognition, hkust].map(element => element?.getBoundingClientRect().top ?? -1),
           heroPortrait: document.querySelector<HTMLElement>('[data-testid="hero-portrait"]')?.getBoundingClientRect().toJSON(),
           hero: document.querySelector<HTMLElement>('[data-testid="hero"]')?.getBoundingClientRect().toJSON(),
           reading: document.querySelector<HTMLElement>("#reading > .section-wrap")?.getBoundingClientRect().toJSON(),
@@ -115,7 +120,11 @@ test("narrow viewport layout remains one responsive composition", async ({ brows
       });
       expect(compactState.compactVisible, `compact Academic UI missing at ${viewport.width}px`).toBe(true);
       expect(compactState.desktopHidden, `desktop Academic scene remains at ${viewport.width}px`).toBe(true);
-      expect(compactState.yearRailHidden, `decorative year rail remains at ${viewport.width}px`).toBe(true);
+      expect(compactState.yearRailVisible, `vertical academic year rail missing at ${viewport.width}px`).toBe(true);
+      expect(compactState.yearCount, `academic year rail incomplete at ${viewport.width}px`).toBe(6);
+      expect(compactState.curveVisible, `vertical academic curve missing at ${viewport.width}px`).toBe(true);
+      expect(compactState.journeyVisible, `vertical academic journey missing at ${viewport.width}px`).toBe(true);
+      expect(compactState.bridge, `old standalone bridge remains at ${viewport.width}px`).toBe("none");
       expect(compactState.order.every((value, index, values) => index === 0 || value > values[index - 1]), `Academic order is not vertical at ${viewport.width}px`).toBe(true);
       if (compactState.heroPortrait && compactState.hero) {
         expect(compactState.heroPortrait.x).toBeGreaterThanOrEqual(compactState.hero.x - 1);

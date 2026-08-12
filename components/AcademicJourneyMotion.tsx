@@ -1,13 +1,13 @@
 "use client";
 
-import type { HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Award, Brain, FileText, GraduationCap, Trophy } from "lucide-react";
 import Image from "next/image";
 import CredentialViewer from "@/components/CredentialViewer";
 import { useLanguage } from "@/components/LanguageProvider";
 
-type AcademicJourneyMotionProps = HTMLAttributes<HTMLElement> & { children?: ReactNode };
+type AcademicJourneyMotionProps = HTMLAttributes<HTMLElement>;
 type MilestoneKey = "deans" | "wcsst" | "brain" | "parkin";
 
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
@@ -37,11 +37,18 @@ const yearWeight = (progress: number, center: number, hold: number) => {
   return 1 - smoothStep((progress - holdEnd) / (exitEnd - holdEnd));
 };
 
-export default function AcademicJourneyMotion({ id, children, ...props }: AcademicJourneyMotionProps) {
+const milestoneWeight = (progress: number, center: number) => {
+  const enter = smoothStep((progress - (center - 0.11)) / 0.11);
+  const exit = smoothStep((progress - (center + 0.13)) / 0.11);
+  return clamp(enter - exit);
+};
+
+export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyMotionProps) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const stickyRef = useRef<HTMLDivElement | null>(null);
   const [activeMilestone, setActiveMilestone] = useState<MilestoneKey | null>(null);
-  const { copy } = useLanguage();
+  const { copy, locale } = useLanguage();
+  const academicMajorLabel = locale === "zh-CN" ? "第二专业" : locale === "zh-HK" ? "第二專業" : copy.academic.majorLabel;
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -57,11 +64,14 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
 
     const updateProgress = () => {
       const rect = section.getBoundingClientRect();
-      const topOffset = window.matchMedia("(max-width: 700px)").matches ? 76 : 76;
+      const compact = window.matchMedia("(max-width: 900px)").matches;
+      const topOffset = 76;
       const sectionTop = rect.top + window.scrollY;
       const stickyHeight = sticky.getBoundingClientRect().height;
-      const start = sectionTop - topOffset;
-      const end = sectionTop + section.offsetHeight - stickyHeight - topOffset;
+      const start = compact ? sectionTop - window.innerHeight * 0.72 : sectionTop - topOffset;
+      const end = compact
+        ? sectionTop + section.offsetHeight - window.innerHeight * 0.22
+        : sectionTop + section.offsetHeight - stickyHeight - topOffset;
       const progress = clamp((window.scrollY - start) / Math.max(1, end - start));
       const bridge = smoothStep((progress - 0.10) / 0.48);
       const specialization = smoothStep((progress - 0.54) / 0.40);
@@ -71,6 +81,10 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
       setVariable("--journey-bridge", bridge);
       setVariable("--journey-specialization", specialization);
       setVariable("--journey-milestone", milestone);
+      setVariable("--milestone-deans", milestoneWeight(progress, 0.30));
+      setVariable("--milestone-wcsst", milestoneWeight(progress, 0.43));
+      setVariable("--milestone-brain", milestoneWeight(progress, 0.55));
+      setVariable("--milestone-parkin", milestoneWeight(progress, 0.65));
 
       yearSequence.forEach(({ year, center, hold }) => {
         setVariable(`--year-${year}`, yearWeight(progress, center, hold));
@@ -189,6 +203,7 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
               <div><strong>POLYU</strong><span>Aug 2022 – Jun 2026</span></div>
             </div>
               <div className="academic-journey-discipline">{copy.academic.polyuDegree}</div>
+              <div className="academic-journey-secondary"><span>{academicMajorLabel}</span><strong>{copy.academic.major}</strong></div>
             <div className="academic-journey-university">{copy.academic.polyu}</div>
               <div className="academic-journey-achievement"><GraduationCap size={16} aria-hidden="true" /><strong>{copy.academic.honours}</strong><span>·</span><span>{copy.academic.gpa}</span></div>
             <CredentialViewer
@@ -200,11 +215,6 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
               triggerLabel={copy.academic.degreeCredential}
             />
           </div>
-          </div>
-
-          <div className="academic-journey-bridge-zone" aria-label="Secondary Major in Artificial Intelligence and Data Analytics">
-            <span>{copy.academic.bridge}</span>
-            <strong>{copy.academic.major}</strong>
           </div>
 
           <div className="academic-journey-foreground academic-journey-foreground--specialization">
@@ -265,19 +275,58 @@ export default function AcademicJourneyMotion({ id, children, ...props }: Academ
 
         <div className="academic-journey-responsive-ui">
           <div className="academic-journey-responsive-heading">
-          <div className="eyebrow">{copy.academic.eyebrow}</div>
+            <div className="eyebrow">{copy.academic.eyebrow}</div>
             <h2>{copy.academic.title}</h2>
           </div>
-          <aside className="academic-responsive-years" aria-hidden="true">
-            {yearSequence.map(({ year }) => (
-              <span key={year} className="academic-responsive-year">{year}</span>
-            ))}
-          </aside>
-          <div className="academic-responsive-content">
-            {children}
-            <div className="academic-responsive-bridge" aria-label="Secondary Major in Artificial Intelligence and Data Analytics">
-              <span>{copy.academic.bridge}</span>
-              <strong>{copy.academic.major}</strong>
+          <div className="academic-vertical-journey" data-testid="academic-vertical-journey">
+            <aside className="academic-vertical-year-rail" aria-label="Academic years">
+              {yearSequence.map(({ year }) => <span key={year} className={`academic-vertical-year academic-vertical-year--${year}`}>{year}</span>)}
+            </aside>
+            <svg className="academic-vertical-curve" viewBox="0 0 120 760" preserveAspectRatio="none" aria-hidden="true">
+              <path className="academic-vertical-curve-track" pathLength="100" d="M 58 8 C 89 62, 27 116, 62 178 S 91 280, 52 338 S 29 445, 68 503 S 92 625, 59 752" />
+              <path className="academic-vertical-curve-progress" pathLength="100" d="M 58 8 C 89 62, 27 116, 62 178 S 91 280, 52 338 S 29 445, 68 503 S 92 625, 59 752" />
+            </svg>
+            <div className="academic-vertical-content">
+              <article className="academic-vertical-stage academic-vertical-stage--polyu">
+                <div className="academic-vertical-stage-kicker"><span>01</span><strong>POLYU</strong></div>
+                <Image className="academic-vertical-logo academic-vertical-logo--polyu" src="/brand/polyu-logo-transparent.png" alt="The Hong Kong Polytechnic University logo" width={132} height={40} />
+                <span className="academic-vertical-period">{copy.academic.periodPolyu}</span>
+                <h3>{copy.academic.polyuDegree}</h3>
+                <div className="academic-vertical-secondary"><span>{academicMajorLabel}</span><strong>{copy.academic.major}</strong></div>
+                <div className="academic-vertical-honours"><GraduationCap size={15} aria-hidden="true" /><strong>{copy.academic.honours}</strong><span>·</span><span>{copy.academic.gpa}</span></div>
+                <CredentialViewer
+                  icon="degree"
+                  title="POLYU DEGREE CREDENTIAL"
+                  subtitle={`${copy.academic.polyuDegree} · ${copy.academic.major} · ${copy.academic.honours}`}
+                  image="/credentials/polyu-degree-certificate.png"
+                  alt="PolyU degree certificate for Yeung Siu Kwun"
+                  triggerLabel={copy.academic.degreeCredential}
+                />
+              </article>
+
+              <div className="academic-vertical-milestones" aria-label="Undergraduate milestones associated with PolyU">
+                <div className="academic-vertical-milestones-heading"><span>{copy.academic.undergraduate}</span><small>{copy.academic.context}</small><i /></div>
+                <article className="academic-vertical-milestone academic-vertical-milestone--deans" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("deans")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("deans")} onBlur={clearMilestone}>
+                  <Award size={14} aria-hidden="true" /><div><span>{copy.academic.recognition}</span><strong>{copy.academic.deans}</strong><small>{copy.academic.deansPeriod}</small></div>
+                </article>
+                <article className="academic-vertical-milestone academic-vertical-milestone--wcsst" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("wcsst")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("wcsst")} onBlur={clearMilestone}>
+                  <FileText size={14} aria-hidden="true" /><div><span>{copy.academic.research}</span><strong>WCSST 2025</strong><small>{copy.academic.research}</small></div>
+                </article>
+                <article className="academic-vertical-milestone academic-vertical-milestone--brain" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("brain")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("brain")} onBlur={clearMilestone}>
+                  <Brain size={14} aria-hidden="true" /><div><span>{copy.academic.brain}</span><strong>{copy.academic.prize}</strong><CredentialViewer icon="award" title={copy.academic.brain} subtitle={copy.academic.prize} image="/credentials/brain-science-award.jpeg" imageWidth={1179} imageHeight={798} alt="Certificate for Third Prize in the English Group at the Guangdong-Hong Kong-Macao Greater Bay Area Brain Science Forum" triggerLabel={copy.academic.awardCredential} /></div>
+                </article>
+                <article className="academic-vertical-milestone academic-vertical-milestone--parkin" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("parkin")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("parkin")} onBlur={clearMilestone}>
+                  <Trophy size={14} aria-hidden="true" /><div><span>{copy.academic.parkin}</span><strong>{copy.academic.award}</strong><CredentialViewer icon="award" title={copy.academic.award} subtitle="ParkinCare · Service-learning Project Exhibition · 16 April 2025" image="/credentials/parkincare-best-engineered-product-award.png" alt="Best Engineered Product Award certificate for the ParkinCare Parkinson Detection Game" triggerLabel={copy.academic.awardCredential} /></div>
+                </article>
+              </div>
+
+              <article className="academic-vertical-stage academic-vertical-stage--hkust">
+                <div className="academic-vertical-stage-kicker"><span>02</span><strong>HKUST</strong></div>
+                <Image className="academic-vertical-logo academic-vertical-logo--hkust" src="/brand/hkust-logo-transparent.png" alt="The Hong Kong University of Science and Technology logo" width={132} height={40} />
+                <span className="academic-vertical-period">{copy.academic.periodHkust}</span>
+                <h3>{copy.academic.masters}</h3>
+                <p className="academic-vertical-institution">{copy.academic.hkust}</p>
+              </article>
             </div>
           </div>
         </div>

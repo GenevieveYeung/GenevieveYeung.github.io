@@ -2762,6 +2762,99 @@ body{overflow-x:hidden}
 .compact-navigation-language{display:none}
 html[lang^="zh"] body{font-family:Manrope,"PingFang HK","PingFang SC","Microsoft JhengHei","Microsoft YaHei","Noto Sans CJK TC","Noto Sans CJK SC",sans-serif}
 
+/* Compact Academic Journey: the desktop curve becomes a vertical editorial path.
+   It keeps the same mono years, blue trajectory, school anchors, and milestone
+   icon language without turning the scene into a generic card timeline. */
+.academic-journey-secondary{display:grid;gap:4px;margin-top:13px;color:#68788d;font-size:14px;line-height:1.35}
+.academic-journey-secondary span{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--blue)}
+.academic-journey-secondary strong{color:var(--ink);font-weight:600}
+.academic-vertical-journey{position:relative;display:grid;grid-template-columns:38px 44px minmax(0,1fr);align-items:stretch;min-width:0}
+.academic-vertical-year-rail{display:flex;flex-direction:column;justify-content:space-between;padding:4px 0 7px;text-align:left;font:11px/1 'DM Mono',monospace;letter-spacing:.04em;color:#8996a8}
+.academic-vertical-year{display:block;white-space:nowrap;opacity:calc(.36 + var(--year-weight,0) * .64);transform:translateX(calc(var(--year-shift,0) * .05px));transition:color .18s ease,font-weight .18s ease}
+.academic-vertical-year--2022{--year-weight:var(--year-2022,0);--year-shift:var(--year-2022-shift,0)}
+.academic-vertical-year--2023{--year-weight:var(--year-2023,0);--year-shift:var(--year-2023-shift,0)}
+.academic-vertical-year--2024{--year-weight:var(--year-2024,0);--year-shift:var(--year-2024-shift,0)}
+.academic-vertical-year--2025{--year-weight:var(--year-2025,0);--year-shift:var(--year-2025-shift,0)}
+.academic-vertical-year--2026{--year-weight:var(--year-2026,0);--year-shift:var(--year-2026-shift,0)}
+.academic-vertical-year--2027{--year-weight:var(--year-2027,0);--year-shift:var(--year-2027-shift,0)}
+.academic-vertical-year{color:color-mix(in srgb,var(--blue) calc(var(--year-weight,0) * 100%),#8996a8)}
+.academic-vertical-curve{grid-column:2;grid-row:1;width:100%;height:100%;min-height:760px;overflow:visible;pointer-events:none}
+.academic-vertical-curve path{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.academic-vertical-curve-track{stroke:#d4deeb;stroke-width:1;stroke-dasharray:3 8}
+.academic-vertical-curve-progress{stroke:var(--blue);stroke-width:1.35;stroke-dasharray:calc(var(--journey-progress,0) * 100) 100;stroke-dashoffset:0}
+.academic-vertical-content{grid-column:3;grid-row:1;display:flex;flex-direction:column;min-width:0;padding-left:18px}
+.academic-vertical-stage{position:relative;z-index:1;min-width:0;padding:2px 0 25px;border-bottom:1px solid #dce4ee}
+.academic-vertical-stage--hkust{padding-top:27px;border-bottom:0}
+.academic-vertical-stage-kicker{display:flex;align-items:baseline;gap:10px;margin-bottom:13px;font:11px/1 'DM Mono',monospace;letter-spacing:.1em;color:var(--blue)}
+.academic-vertical-stage-kicker span{color:#8996a8}
+.academic-vertical-stage-kicker strong{font-weight:500}
+.academic-vertical-logo{display:block;width:auto;max-width:132px;height:40px;object-fit:contain;object-position:left center;margin-bottom:13px}
+.academic-vertical-logo--polyu{height:37px}
+.academic-vertical-logo--hkust{height:43px}
+.academic-vertical-period{display:block;margin-bottom:9px;font:11px/1.35 'DM Mono',monospace;color:#6f8096}
+.academic-vertical-stage h3{max-width:22ch;margin:0;color:var(--ink);font-size:24px;line-height:1.12;letter-spacing:-.045em}
+.academic-vertical-secondary{display:grid;gap:4px;margin-top:11px;color:#68788d;font-size:15px;line-height:1.35}
+.academic-vertical-secondary span{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--blue)}
+.academic-vertical-secondary strong{color:var(--ink);font-weight:600}
+.academic-vertical-honours{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin-top:14px;color:#5e6f85;font-size:13px}
+.academic-vertical-honours svg{color:var(--blue);flex:none}
+.academic-vertical-honours strong{color:var(--ink)}
+.academic-vertical-stage .credential-trigger{margin-top:15px;font-size:11px}
+.academic-vertical-institution{margin:9px 0 0;color:#718096;font-size:13px;line-height:1.4}
+.academic-vertical-milestones{position:relative;z-index:1;display:grid;gap:0;margin:23px 0 0;padding-top:13px;border-top:1px solid #b9cbe4}
+.academic-vertical-milestones-heading{display:flex;align-items:baseline;gap:9px;margin-bottom:7px;font:10px/1.35 'DM Mono',monospace;letter-spacing:.08em;color:var(--blue)}
+.academic-vertical-milestones-heading small{font-size:9px;letter-spacing:.02em;color:#7b8da5}
+.academic-vertical-milestones-heading i{height:1px;flex:1;background:#d6dfeb}
+.academic-vertical-milestone{display:grid;grid-template-columns:16px minmax(0,1fr);gap:8px;min-width:0;padding:12px 0;border-bottom:1px solid #e1e6ed;opacity:calc(.42 + var(--milestone-weight,0) * .58);transform:translateY(calc((1 - var(--milestone-weight,0)) * 10px));transition:opacity .18s ease,color .18s ease,transform .18s ease}
+.academic-vertical-milestone--deans{--milestone-weight:var(--milestone-deans,0)}
+.academic-vertical-milestone--wcsst{--milestone-weight:var(--milestone-wcsst,0)}
+.academic-vertical-milestone--brain{--milestone-weight:var(--milestone-brain,0)}
+.academic-vertical-milestone--parkin{--milestone-weight:var(--milestone-parkin,0);border-bottom:0}
+.academic-vertical-milestone>svg{margin-top:1px;color:var(--blue)}
+.academic-vertical-milestone>div{display:grid;gap:3px;min-width:0}
+.academic-vertical-milestone span{font:9px/1.25 'DM Mono',monospace;letter-spacing:.06em;color:var(--blue)}
+.academic-vertical-milestone strong{color:var(--ink);font-size:14px;line-height:1.25;font-weight:500}
+.academic-vertical-milestone small{color:#75869b;font-size:11px;line-height:1.35}
+.academic-vertical-milestone .credential-trigger{justify-self:start;margin-top:4px;font-size:10px}
+
+@media (max-width:900px){
+  .academic-journey-section{min-height:0;padding-top:70px;padding-bottom:78px}
+  .academic-journey-desktop-scene{display:none}
+  .academic-journey-responsive-ui{display:block}
+  .academic-journey-responsive-heading{margin-bottom:28px}
+  .academic-journey-responsive-heading h2{max-width:19ch;margin:12px 0 0;font-size:clamp(34px,5.3vw,52px);line-height:1.04;letter-spacing:-.06em}
+  .academic-vertical-journey{grid-template-columns:clamp(34px,9vw,48px) clamp(30px,8vw,44px) minmax(0,1fr)}
+  .academic-vertical-year-rail{padding-top:5px;font-size:10px}
+  .academic-vertical-curve{min-height:760px}
+  .academic-vertical-content{padding-left:clamp(13px,3.5vw,20px)}
+  .academic-vertical-stage h3{font-size:clamp(20px,4.2vw,25px)}
+  .academic-vertical-secondary{font-size:14px}
+}
+
+@media (max-width:430px){
+  .academic-journey-section{padding-top:62px;padding-bottom:70px}
+  .academic-journey-responsive-heading{margin-bottom:23px}
+  .academic-journey-responsive-heading h2{font-size:clamp(31px,9vw,39px)}
+  .academic-vertical-journey{grid-template-columns:32px 28px minmax(0,1fr)}
+  .academic-vertical-year-rail{font-size:9px}
+  .academic-vertical-curve{min-height:800px}
+  .academic-vertical-content{padding-left:12px}
+  .academic-vertical-logo{max-width:104px}
+  .academic-vertical-logo--polyu{height:31px}
+  .academic-vertical-logo--hkust{height:36px}
+  .academic-vertical-stage h3{font-size:20px}
+  .academic-vertical-secondary{font-size:13px}
+  .academic-vertical-honours{font-size:12px;gap:6px}
+  .academic-vertical-milestones-heading{display:grid;grid-template-columns:1fr;gap:3px}
+  .academic-vertical-milestones-heading i{display:none}
+  .academic-vertical-milestone strong{font-size:13px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .academic-vertical-year,.academic-vertical-milestone{opacity:1;transform:none;transition:none}
+  .academic-vertical-curve-progress{stroke-dasharray:100 100}
+}
+
 @media (max-width:1100px){
   .nav-shell .nav-contact .language-switcher{display:none}
   .compact-navigation-language{display:block;margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}

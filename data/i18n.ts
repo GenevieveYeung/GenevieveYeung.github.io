@@ -146,7 +146,21 @@ const zhHKUi = {
   labels: { switchTo: "???", english: "??", simplified: "????", traditional: "????", languageSelector: "????", selectedSkills: "??????" },
 } as const;
 
-export const ui = { en: baseUi.en, "zh-CN": naturalUi["zh-CN"], "zh-HK": naturalUi["zh-HK"] } as const;
+const localizedUi = {
+  ...naturalUi,
+  "zh-CN": {
+    ...naturalUi["zh-CN"],
+    hero: { ...naturalUi["zh-CN"].hero, major: "第二专业：人工智能与数据分析" },
+    academic: { ...naturalUi["zh-CN"].academic, majorLabel: "第二专业", bridge: "" },
+  },
+  "zh-HK": {
+    ...naturalUi["zh-HK"],
+    hero: { ...naturalUi["zh-HK"].hero, major: "第二專業：人工智能與數據分析" },
+    academic: { ...naturalUi["zh-HK"].academic, majorLabel: "第二專業", bridge: "" },
+  },
+} as const;
+
+export const ui = { en: baseUi.en, "zh-CN": localizedUi["zh-CN"], "zh-HK": localizedUi["zh-HK"] } as const;
 export const workContent = { en: baseWorkContent.en, "zh-CN": naturalWorkContent["zh-CN"], "zh-HK": naturalWorkContent["zh-HK"] } as const;
 export const projectContent: Record<Locale, Record<string, { title: string; summary: string; contribution: string; detail: string; highlights: string[]; award?: string }>> = { en: baseProjectContent.en, "zh-CN": naturalProjectContent["zh-CN"] as never, "zh-HK": naturalProjectContent["zh-HK"] as never };
 export const readingContent = { en: baseReadingContent.en, "zh-CN": naturalReadingContent["zh-CN"], "zh-HK": naturalReadingContent["zh-HK"] } as const;

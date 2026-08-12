@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.env*
+qa-artifacts/
+qa_artifacts/
+qa/
+qa_http.ps1
+qa_visual.py
+dev-server-*.log
+*.log
+tmp/
+hatch_pet_runs/

@@ -1,0 +1,32 @@
+export const selectedReading = [
+  {
+    title: "Principles of Economics",
+    volume: "Macroeconomics",
+    chineseTitle: "宏观经济学分册",
+    author: "N. Gregory Mankiw",
+    tagline: "A clearer map of growth, policy, and inflation.",
+    topics: ["Economics", "Macroeconomics", "Markets", "Policy"],
+    cover: "/reading/macroeconomics.png",
+    note: "I’m reading this to build a clearer understanding of inflation, growth, policy, and how the broader economy works.",
+  },
+  {
+    title: "Principles of Economics",
+    volume: "Microeconomics",
+    chineseTitle: "微观经济学分册",
+    author: "N. Gregory Mankiw",
+    tagline: "A foundation for incentives, markets, and decisions.",
+    topics: ["Economics", "Microeconomics", "Incentives", "Market Behavior"],
+    cover: "/reading/microeconomics.png",
+    note: "I’m reading this to strengthen my foundation in incentives, market behavior, and the logic behind economic decisions.",
+  },
+  {
+    title: "SQL in 10 Minutes",
+    volume: "",
+    chineseTitle: "SQL 必知必会（第4版）",
+    author: "Ben Forta",
+    tagline: "A practical refresher for everyday querying.",
+    topics: ["SQL", "Databases", "Data Skills"],
+    cover: "/reading/sql-in-10-minutes.png",
+    note: "I use this as a practical refresher for database basics and day-to-day querying skills.",
+  },
+] as const;

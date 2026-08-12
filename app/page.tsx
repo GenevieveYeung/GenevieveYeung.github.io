@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Award, Brain, BriefcaseBusiness, ExternalLink, FileText, GraduationCap, Linkedin, Trophy } from "lucide-react";
-import CopyContactButton from "@/components/CopyContactButton";
 import CopyEmailButton from "@/components/CopyEmailButton";
 import CopyPhoneButton from "@/components/CopyPhoneButton";
 import CredentialViewer from "@/components/CredentialViewer";
@@ -12,6 +11,7 @@ import HeroSkillField from "@/components/HeroSkillField";
 import ProjectExperienceAccordion from "@/components/ProjectExperienceAccordion";
 import PetEasterEgg from "@/components/PetEasterEgg";
 import PhotographyJournal from "@/components/PhotographyJournal";
+import ResponsiveNav from "@/components/ResponsiveNav";
 import SelectedReading from "@/components/SelectedReading";
 import SectionDeck, { SectionDeckObserver, SectionDeckShell } from "@/components/SectionDeck";
 import WorkExperienceAccordion from "@/components/WorkExperienceAccordion";
@@ -26,7 +26,7 @@ function ExternalLinkItem({ href, label, children, testId }: { href?: string; la
 export default function Home() {
   const projectMedia = Object.fromEntries(projectLibrary.map(project => [project.slug, getProjectCover(project.slug)]));
   return <main>
-    <nav className="nav-shell" aria-label="Main navigation" data-testid="site-nav"><Link href="#top" className="wordmark">Genevieve <span>Yeung</span></Link><div className="nav-links"><Link href="#work">Work Experience</Link><Link href="#projects">Project Experience</Link><Link href="#education">Education</Link><Link href="#beyond-work-journal">Beyond Work</Link><Link href="#contact">Contact</Link></div><div className="nav-contact"><CopyContactButton icon="phone" value="+852 6080 4041" copiedLabel="Phone copied" ariaLabel="Copy phone number" /><CopyContactButton icon="mail" value="genevieveyeung@gmail.com" copiedLabel="Email copied" ariaLabel="Copy email address" /><ExternalLinkItem href={links.linkedin} label="LinkedIn"><Linkedin size={16} /></ExternalLinkItem><ExternalLinkItem href={links.jobsdb} label="JobsDB"><BriefcaseBusiness size={16} /></ExternalLinkItem></div></nav>
+    <ResponsiveNav />
     <SectionDeckObserver />
 
     <section className="personal-hero section-wrap" id="top" data-testid="hero"><HeroMountainReveal /><div className="hero-personal-copy"><div className="eyebrow eyebrow--friendly">Hi, I’m Genevieve <span className="eyebrow-dot" /></div><h1>AI engineer,<br />researcher <span>&amp;</span> curious builder.</h1><div className="hero-location-line">Based in <em>Hong Kong.</em></div><p className="hero-lede">I work across machine learning, biomedical AI, financial-data automation, and applied research to solve practical problems with care.</p><div className="hero-actions"><a className="button button--primary" href="#work">View my work</a><CopyEmailButton /></div><div className="hero-facts"><div className="hero-fact hero-fact--profile"><span>Canadian · Hong Kong since 2022 · English / Cantonese / Mandarin</span></div><div className="hero-fact hero-fact--education"><GraduationCap size={15} aria-hidden="true" /><div className="hero-education-copy"><strong>BSc Biomedical Engineering</strong><span><small>Secondary Major in Artificial Intelligence &amp; Data Analytics</small><b><span aria-hidden="true">→</span> MSc Artificial Intelligence</b></span></div></div></div></div><div className="hero-photo-wrap"><HeroSkillField /><div className="photo-frame" data-testid="hero-portrait"><Image src="/images/genevieve-hero.jpg" alt="Genevieve Yeung in a Hong Kong travel setting" fill priority sizes="(max-width: 800px) 100vw, 46vw" /></div><div className="photo-caption">Hong Kong / Canada · photography / city life</div></div></section>

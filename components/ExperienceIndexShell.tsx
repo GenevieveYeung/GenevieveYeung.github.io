@@ -3,6 +3,7 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 type ExperienceIndexShellProps = {
   id: string;
@@ -49,15 +50,24 @@ export default function ExperienceIndexShell({
 }: ExperienceIndexShellProps) {
   const reducedMotion = useReducedMotion() ?? false;
   const useWorkEntrance = kind === "work";
+  const [compactViewport, setCompactViewport] = useState(() => typeof window !== "undefined" && window.matchMedia("(max-width: 900px)").matches);
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 900px)");
+    const update = () => setCompactViewport(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+  const enableWorkEntrance = useWorkEntrance && !compactViewport;
   const transition = reducedMotion ? { duration: 0 } : focusTransition;
 
   return (
     <motion.article
       layout
       className={`experience-index-row experience-index-row--${kind}${open ? " is-open" : ""}${quiet ? " is-quiet" : ""}`}
-      initial={reducedMotion || !useWorkEntrance ? false : { opacity: 0, y: 22 }}
-      whileInView={reducedMotion || !useWorkEntrance ? undefined : { opacity: 1, y: 0 }}
-      viewport={useWorkEntrance ? { once: true, amount: 0.28 } : undefined}
+      initial={reducedMotion || !enableWorkEntrance ? false : { opacity: 0, y: 22 }}
+      whileInView={reducedMotion || !enableWorkEntrance ? undefined : { opacity: 1, y: 0 }}
+      viewport={enableWorkEntrance ? { once: true, amount: 0.28 } : undefined}
       animate={{ opacity: quiet ? 0.78 : 1 }}
       transition={reducedMotion ? { duration: 0 } : { ...transition, ease: entranceEase }}
       data-experience-id={id}
@@ -74,12 +84,12 @@ export default function ExperienceIndexShell({
         whileTap={reducedMotion ? undefined : { scale: 0.995 }}
         transition={{ duration: 0.16, ease: "easeOut" }}
       >
-        <motion.span className="experience-index-number" {...stagedEntrance(reducedMotion || !useWorkEntrance, 0)}>{number}</motion.span>
-        <motion.span className="experience-index-icon" {...stagedEntrance(reducedMotion || !useWorkEntrance, 0)}>{icon}</motion.span>
+        <motion.span className="experience-index-number" {...stagedEntrance(reducedMotion || !enableWorkEntrance, 0)}>{number}</motion.span>
+        <motion.span className="experience-index-icon" {...stagedEntrance(reducedMotion || !enableWorkEntrance, 0)}>{icon}</motion.span>
         <span className="experience-index-summary">
-          <motion.small {...stagedEntrance(reducedMotion || !useWorkEntrance, 0.05)}>{period}</motion.small>
-          <motion.strong {...stagedEntrance(reducedMotion || !useWorkEntrance, 0.1)}>{title}</motion.strong>
-          <motion.em {...stagedEntrance(reducedMotion || !useWorkEntrance, 0.15)}>{supporting}</motion.em>
+          <motion.small {...stagedEntrance(reducedMotion || !enableWorkEntrance, 0.05)}>{period}</motion.small>
+          <motion.strong {...stagedEntrance(reducedMotion || !enableWorkEntrance, 0.1)}>{title}</motion.strong>
+          <motion.em {...stagedEntrance(reducedMotion || !enableWorkEntrance, 0.15)}>{supporting}</motion.em>
         </span>
         <span className="experience-index-control" aria-hidden="true"><ChevronDown size={18} /></span>
       </motion.button>

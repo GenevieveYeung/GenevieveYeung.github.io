@@ -65,7 +65,7 @@ async function main() {
   await waitForServer();
 
   const result = await new Promise(resolve => {
-    const runner = spawn(process.execPath, [playwrightBin, "test", "tests/portfolio-self-audit.spec.ts", "--project=chromium", ...playwrightArgs], {
+    const runner = spawn(process.execPath, [playwrightBin, "test", "tests", "--project=chromium", ...playwrightArgs], {
       cwd: repo,
       env: { ...process.env, PORTFOLIO_QA_SERVER: "1" },
       stdio: ["ignore", "pipe", "pipe"],
@@ -83,7 +83,7 @@ async function main() {
         stopProcessTree(runner.pid);
         resolve({ code: 1 });
       }
-    }, 120_000);
+    }, 300_000);
     runner.on("error", error => resolve({ code: 1, error }));
     runner.on("exit", code => { clearTimeout(watchdog); resolve({ code: code ?? 1 }); });
   });

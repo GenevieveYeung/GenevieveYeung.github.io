@@ -328,7 +328,7 @@ test("portfolio full-site self-audit", async ({ browser }) => {
         }
 
         for (const [href, testId] of [["#work", "work-section"], ["#projects", "projects-section"], ["#education", "education-section"], ["#beyond-work-journal", "beyond-work-section"], ["#contact", "contact-section"]] as const) {
-          await page.locator(`[data-testid="site-nav"] a[href="${href}"]`).click();
+          await page.locator(`[data-testid="site-nav"] .nav-links a[href="${href}"]`).click();
           const target = page.getByTestId(testId);
           await expect(target, `${href} did not land on a visible section`).toBeInViewport({ ratio: 0.01 });
         }

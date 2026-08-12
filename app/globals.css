@@ -2768,8 +2768,11 @@ html[lang^="zh"] body{font-family:Manrope,"PingFang HK","PingFang SC","Microsoft
 .academic-journey-secondary{display:grid;gap:4px;margin-top:13px;color:#68788d;font-size:14px;line-height:1.35}
 .academic-journey-secondary span{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--blue)}
 .academic-journey-secondary strong{color:var(--ink);font-weight:600}
-.academic-vertical-journey{position:relative;display:grid;grid-template-columns:38px 44px minmax(0,1fr);align-items:stretch;min-width:0}
-.academic-vertical-year-rail{display:flex;flex-direction:column;justify-content:space-between;padding:4px 0 7px;text-align:left;font:11px/1 'DM Mono',monospace;letter-spacing:.04em;color:#8996a8}
+.academic-vertical-journey{position:relative;display:grid;grid-template-columns:46px minmax(0,1fr);align-items:stretch;min-width:0}
+.academic-vertical-active-year{display:flex;flex-direction:column;align-items:flex-start;gap:7px;position:relative;z-index:3;padding-top:4px}
+.academic-vertical-active-year span{color:var(--blue);font:500 clamp(26px,6vw,38px)/.9 'DM Mono',monospace;letter-spacing:-.08em;transition:opacity .22s ease,transform .22s ease}
+.academic-vertical-active-year small{color:#91a0b1;font:8px/1.25 'DM Mono',monospace;letter-spacing:.08em}
+.academic-vertical-year-rail{position:absolute;inset:10px auto 17px 0;z-index:2;display:flex;flex-direction:column;justify-content:space-between;width:42px;text-align:left;font:9px/1 'DM Mono',monospace;letter-spacing:.04em;color:#8996a8;pointer-events:none}
 .academic-vertical-year{display:block;white-space:nowrap;opacity:calc(.36 + var(--year-weight,0) * .64);transform:translateX(calc(var(--year-shift,0) * .05px));transition:color .18s ease,font-weight .18s ease}
 .academic-vertical-year--2022{--year-weight:var(--year-2022,0);--year-shift:var(--year-2022-shift,0)}
 .academic-vertical-year--2023{--year-weight:var(--year-2023,0);--year-shift:var(--year-2023-shift,0)}
@@ -2778,12 +2781,14 @@ html[lang^="zh"] body{font-family:Manrope,"PingFang HK","PingFang SC","Microsoft
 .academic-vertical-year--2026{--year-weight:var(--year-2026,0);--year-shift:var(--year-2026-shift,0)}
 .academic-vertical-year--2027{--year-weight:var(--year-2027,0);--year-shift:var(--year-2027-shift,0)}
 .academic-vertical-year{color:color-mix(in srgb,var(--blue) calc(var(--year-weight,0) * 100%),#8996a8)}
-.academic-vertical-curve{grid-column:2;grid-row:1;width:100%;height:100%;min-height:760px;overflow:visible;pointer-events:none}
+.academic-vertical-flow{position:relative;grid-column:2;grid-row:1;min-width:0;padding:0 0 0}
+.academic-vertical-curve{position:absolute;inset:0 5px 0 5px;z-index:0;width:calc(100% - 10px);height:100%;min-height:1240px;overflow:visible;pointer-events:none}
 .academic-vertical-curve path{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round}
 .academic-vertical-curve-track{stroke:#d4deeb;stroke-width:1;stroke-dasharray:3 8}
 .academic-vertical-curve-progress{stroke:var(--blue);stroke-width:1.35;stroke-dasharray:calc(var(--journey-progress,0) * 100) 100;stroke-dashoffset:0}
-.academic-vertical-content{grid-column:3;grid-row:1;display:flex;flex-direction:column;min-width:0;padding-left:18px}
-.academic-vertical-stage{position:relative;z-index:1;min-width:0;padding:2px 0 25px;border-bottom:1px solid #dce4ee}
+.academic-vertical-curve-progress marker path{stroke:var(--blue)}
+.academic-vertical-content{position:relative;z-index:1;display:flex;flex-direction:column;min-width:0;padding:0 26px}
+.academic-vertical-stage{position:relative;z-index:1;min-width:0;padding:2px 0 25px;background:var(--paper);border-bottom:1px solid #dce4ee}
 .academic-vertical-stage--hkust{padding-top:27px;border-bottom:0}
 .academic-vertical-stage-kicker{display:flex;align-items:baseline;gap:10px;margin-bottom:13px;font:11px/1 'DM Mono',monospace;letter-spacing:.1em;color:var(--blue)}
 .academic-vertical-stage-kicker span{color:#8996a8}
@@ -2801,21 +2806,37 @@ html[lang^="zh"] body{font-family:Manrope,"PingFang HK","PingFang SC","Microsoft
 .academic-vertical-honours strong{color:var(--ink)}
 .academic-vertical-stage .credential-trigger{margin-top:15px;font-size:11px}
 .academic-vertical-institution{margin:9px 0 0;color:#718096;font-size:13px;line-height:1.4}
-.academic-vertical-milestones{position:relative;z-index:1;display:grid;gap:0;margin:23px 0 0;padding-top:13px;border-top:1px solid #b9cbe4}
-.academic-vertical-milestones-heading{display:flex;align-items:baseline;gap:9px;margin-bottom:7px;font:10px/1.35 'DM Mono',monospace;letter-spacing:.08em;color:var(--blue)}
+.academic-vertical-milestones{position:relative;z-index:1;display:grid;grid-template-columns:1fr;gap:0;margin:23px 0 0;padding:13px 0 0;border-top:0}
+.academic-vertical-milestones-heading{grid-column:1;display:flex;align-items:baseline;gap:9px;margin-bottom:7px;font:10px/1.35 'DM Mono',monospace;letter-spacing:.08em;color:var(--blue)}
 .academic-vertical-milestones-heading small{font-size:9px;letter-spacing:.02em;color:#7b8da5}
 .academic-vertical-milestones-heading i{height:1px;flex:1;background:#d6dfeb}
-.academic-vertical-milestone{display:grid;grid-template-columns:16px minmax(0,1fr);gap:8px;min-width:0;padding:12px 0;border-bottom:1px solid #e1e6ed;opacity:calc(.42 + var(--milestone-weight,0) * .58);transform:translateY(calc((1 - var(--milestone-weight,0)) * 10px));transition:opacity .18s ease,color .18s ease,transform .18s ease}
+.academic-vertical-milestone{position:relative;display:grid;grid-template-columns:16px minmax(0,1fr);gap:8px;width:min(74%,236px);min-width:0;box-sizing:border-box;padding:12px 14px;background:color-mix(in srgb,var(--paper) 96%,transparent);border-top:1px solid #dce4ee;opacity:calc(.42 + var(--milestone-weight,0) * .58);transform:translate3d(0,calc((1 - var(--milestone-weight,0)) * 10px),0);transition:opacity .18s ease,color .18s ease,transform .18s ease}
+.academic-vertical-milestone::after{content:"";position:absolute;top:17px;width:17px;height:1px;background:#b9cbe4}
+.academic-vertical-milestone--left{grid-column:1;justify-self:start;margin-right:0}
+.academic-vertical-milestone--left::after{right:-17px}
+.academic-vertical-milestone--right{grid-column:1;justify-self:end;margin-left:0}
+.academic-vertical-milestone--right::after{left:-17px}
 .academic-vertical-milestone--deans{--milestone-weight:var(--milestone-deans,0)}
 .academic-vertical-milestone--wcsst{--milestone-weight:var(--milestone-wcsst,0)}
 .academic-vertical-milestone--brain{--milestone-weight:var(--milestone-brain,0)}
 .academic-vertical-milestone--parkin{--milestone-weight:var(--milestone-parkin,0);border-bottom:0}
 .academic-vertical-milestone>svg{margin-top:1px;color:var(--blue)}
 .academic-vertical-milestone>div{display:grid;gap:3px;min-width:0}
-.academic-vertical-milestone span{font:9px/1.25 'DM Mono',monospace;letter-spacing:.06em;color:var(--blue)}
-.academic-vertical-milestone strong{color:var(--ink);font-size:14px;line-height:1.25;font-weight:500}
-.academic-vertical-milestone small{color:#75869b;font-size:11px;line-height:1.35}
+.academic-vertical-milestone span{min-width:0;font:9px/1.25 'DM Mono',monospace;letter-spacing:.06em;color:var(--blue);overflow-wrap:anywhere;word-break:break-word}
+.academic-vertical-milestone strong{min-width:0;color:var(--ink);font-size:14px;line-height:1.25;font-weight:500;overflow-wrap:anywhere;word-break:break-word}
+.academic-vertical-milestone small{min-width:0;color:#75869b;font-size:11px;line-height:1.35;overflow-wrap:anywhere;word-break:break-word}
 .academic-vertical-milestone .credential-trigger{justify-self:start;margin-top:4px;font-size:10px}
+@media (max-width:900px){
+  .academic-vertical-milestone .credential-trigger{display:grid;grid-template-columns:14px minmax(0,1fr);align-items:start;justify-content:start;width:100%;max-width:100%;font-size:9px;white-space:normal;text-align:left;overflow-wrap:anywhere}
+  .academic-vertical-milestone .credential-trigger>span{max-width:14px}
+  .project-filter-bar{max-width:100%;min-width:0}
+}
+@media (max-width:900px){
+  .academic-vertical-milestone{width:min(72%,230px)}
+}
+@media (max-width:374px){
+  .academic-vertical-milestone{width:min(78%,210px)}
+}
 
 @media (max-width:900px){
   .academic-journey-section{min-height:0;padding-top:70px;padding-bottom:78px}
@@ -2823,10 +2844,11 @@ html[lang^="zh"] body{font-family:Manrope,"PingFang HK","PingFang SC","Microsoft
   .academic-journey-responsive-ui{display:block}
   .academic-journey-responsive-heading{margin-bottom:28px}
   .academic-journey-responsive-heading h2{max-width:19ch;margin:12px 0 0;font-size:clamp(34px,5.3vw,52px);line-height:1.04;letter-spacing:-.06em}
-  .academic-vertical-journey{grid-template-columns:clamp(34px,9vw,48px) clamp(30px,8vw,44px) minmax(0,1fr)}
-  .academic-vertical-year-rail{padding-top:5px;font-size:10px}
-  .academic-vertical-curve{min-height:760px}
-  .academic-vertical-content{padding-left:clamp(13px,3.5vw,20px)}
+  .academic-vertical-journey{grid-template-columns:clamp(42px,11vw,58px) minmax(0,1fr)}
+  .academic-vertical-year-rail{display:none}
+  .academic-vertical-flow{padding-top:0}
+  .academic-vertical-curve{min-height:1240px}
+  .academic-vertical-content{padding-inline:clamp(18px,5vw,26px)}
   .academic-vertical-stage h3{font-size:clamp(20px,4.2vw,25px)}
   .academic-vertical-secondary{font-size:14px}
 }
@@ -2835,10 +2857,13 @@ html[lang^="zh"] body{font-family:Manrope,"PingFang HK","PingFang SC","Microsoft
   .academic-journey-section{padding-top:62px;padding-bottom:70px}
   .academic-journey-responsive-heading{margin-bottom:23px}
   .academic-journey-responsive-heading h2{font-size:clamp(31px,9vw,39px)}
-  .academic-vertical-journey{grid-template-columns:32px 28px minmax(0,1fr)}
+  .academic-vertical-journey{grid-template-columns:40px minmax(0,1fr)}
   .academic-vertical-year-rail{font-size:9px}
-  .academic-vertical-curve{min-height:800px}
-  .academic-vertical-content{padding-left:12px}
+  .academic-vertical-active-year span{font-size:27px}
+  .academic-vertical-active-year small{font-size:7px}
+  .academic-vertical-flow{padding-top:0}
+  .academic-vertical-curve{min-height:1240px}
+  .academic-vertical-content{padding-inline:18px}
   .academic-vertical-logo{max-width:104px}
   .academic-vertical-logo--polyu{height:31px}
   .academic-vertical-logo--hkust{height:36px}
@@ -2848,6 +2873,16 @@ html[lang^="zh"] body{font-family:Manrope,"PingFang HK","PingFang SC","Microsoft
   .academic-vertical-milestones-heading{display:grid;grid-template-columns:1fr;gap:3px}
   .academic-vertical-milestones-heading i{display:none}
   .academic-vertical-milestone strong{font-size:13px}
+}
+
+@media (max-width:374px){
+  .academic-vertical-journey{grid-template-columns:35px minmax(0,1fr)}
+  .academic-vertical-active-year span{font-size:24px}
+  .academic-vertical-content{padding-inline:15px}
+  .academic-vertical-milestone{width:min(78%,220px);padding-inline:9px}
+  .academic-vertical-milestone::after{width:14px}
+  .academic-vertical-milestone--left::after{right:-14px}
+  .academic-vertical-milestone--right::after{left:-14px}
 }
 
 @media (prefers-reduced-motion:reduce){

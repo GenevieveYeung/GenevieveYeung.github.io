@@ -46,6 +46,7 @@ const milestoneWeight = (progress: number, center: number) => {
 export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyMotionProps) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const stickyRef = useRef<HTMLDivElement | null>(null);
+  const activeYearRef = useRef<HTMLSpanElement | null>(null);
   const [activeMilestone, setActiveMilestone] = useState<MilestoneKey | null>(null);
   const { copy, locale } = useLanguage();
   const academicMajorLabel = locale === "zh-CN" ? "第二专业" : locale === "zh-HK" ? "第二專業" : copy.academic.majorLabel;
@@ -90,6 +91,16 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
         setVariable(`--year-${year}`, yearWeight(progress, center, hold));
         setVariable(`--year-${year}-shift`, (center - progress) * 72);
       });
+
+      const activeYear = yearSequence.reduce((closest, item) => {
+        const closestDistance = Math.abs(progress - closest.center);
+        const itemDistance = Math.abs(progress - item.center);
+        return itemDistance < closestDistance ? item : closest;
+      }, yearSequence[0]);
+      if (activeYearRef.current && activeYearRef.current.dataset.year !== activeYear.year) {
+        activeYearRef.current.dataset.year = activeYear.year;
+        activeYearRef.current.textContent = activeYear.year;
+      }
 
       const phase = progress < 0.26 ? "foundation" : progress < 0.58 ? "bridge" : progress < 0.84 ? "specialization" : "settled";
       section.dataset.journeyPhase = phase;
@@ -279,14 +290,24 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
             <h2>{copy.academic.title}</h2>
           </div>
           <div className="academic-vertical-journey" data-testid="academic-vertical-journey">
+            <div className="academic-vertical-active-year" aria-hidden="true">
+              <span ref={activeYearRef} data-testid="academic-active-year" data-year="2022">2022</span>
+              <small>ACADEMIC<br />PROGRESSION</small>
+            </div>
             <aside className="academic-vertical-year-rail" aria-label="Academic years">
               {yearSequence.map(({ year }) => <span key={year} className={`academic-vertical-year academic-vertical-year--${year}`}>{year}</span>)}
             </aside>
-            <svg className="academic-vertical-curve" viewBox="0 0 120 760" preserveAspectRatio="none" aria-hidden="true">
-              <path className="academic-vertical-curve-track" pathLength="100" d="M 58 8 C 89 62, 27 116, 62 178 S 91 280, 52 338 S 29 445, 68 503 S 92 625, 59 752" />
-              <path className="academic-vertical-curve-progress" pathLength="100" d="M 58 8 C 89 62, 27 116, 62 178 S 91 280, 52 338 S 29 445, 68 503 S 92 625, 59 752" />
-            </svg>
-            <div className="academic-vertical-content">
+            <div className="academic-vertical-flow">
+              <svg className="academic-vertical-curve" viewBox="0 0 120 1000" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <marker id="academic-vertical-curve-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <path d="M 0 0 L 6 3 L 0 6" fill="none" />
+                  </marker>
+                </defs>
+                <path className="academic-vertical-curve-track" pathLength="100" d="M 60 250 C 86 310, 34 360, 62 430 S 91 540, 51 620 S 30 735, 68 820 S 91 950, 56 1050 S 78 1160, 60 1240" />
+                <path className="academic-vertical-curve-progress" pathLength="100" markerEnd="url(#academic-vertical-curve-arrow)" d="M 60 250 C 86 310, 34 360, 62 430 S 91 540, 51 620 S 30 735, 68 820 S 91 950, 56 1050 S 78 1160, 60 1240" />
+              </svg>
+              <div className="academic-vertical-content">
               <article className="academic-vertical-stage academic-vertical-stage--polyu">
                 <div className="academic-vertical-stage-kicker"><span>01</span><strong>POLYU</strong></div>
                 <Image className="academic-vertical-logo academic-vertical-logo--polyu" src="/brand/polyu-logo-transparent.png" alt="The Hong Kong Polytechnic University logo" width={132} height={40} />
@@ -306,16 +327,16 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
 
               <div className="academic-vertical-milestones" aria-label="Undergraduate milestones associated with PolyU">
                 <div className="academic-vertical-milestones-heading"><span>{copy.academic.undergraduate}</span><small>{copy.academic.context}</small><i /></div>
-                <article className="academic-vertical-milestone academic-vertical-milestone--deans" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("deans")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("deans")} onBlur={clearMilestone}>
+                <article className="academic-vertical-milestone academic-vertical-milestone--deans academic-vertical-milestone--left" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("deans")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("deans")} onBlur={clearMilestone}>
                   <Award size={14} aria-hidden="true" /><div><span>{copy.academic.recognition}</span><strong>{copy.academic.deans}</strong><small>{copy.academic.deansPeriod}</small></div>
                 </article>
-                <article className="academic-vertical-milestone academic-vertical-milestone--wcsst" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("wcsst")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("wcsst")} onBlur={clearMilestone}>
+                <article className="academic-vertical-milestone academic-vertical-milestone--wcsst academic-vertical-milestone--right" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("wcsst")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("wcsst")} onBlur={clearMilestone}>
                   <FileText size={14} aria-hidden="true" /><div><span>{copy.academic.research}</span><strong>WCSST 2025</strong><small>{copy.academic.research}</small></div>
                 </article>
-                <article className="academic-vertical-milestone academic-vertical-milestone--brain" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("brain")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("brain")} onBlur={clearMilestone}>
+                <article className="academic-vertical-milestone academic-vertical-milestone--brain academic-vertical-milestone--left" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("brain")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("brain")} onBlur={clearMilestone}>
                   <Brain size={14} aria-hidden="true" /><div><span>{copy.academic.brain}</span><strong>{copy.academic.prize}</strong><CredentialViewer icon="award" title={copy.academic.brain} subtitle={copy.academic.prize} image="/credentials/brain-science-award.jpeg" imageWidth={1179} imageHeight={798} alt="Certificate for Third Prize in the English Group at the Guangdong-Hong Kong-Macao Greater Bay Area Brain Science Forum" triggerLabel={copy.academic.awardCredential} /></div>
                 </article>
-                <article className="academic-vertical-milestone academic-vertical-milestone--parkin" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("parkin")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("parkin")} onBlur={clearMilestone}>
+                <article className="academic-vertical-milestone academic-vertical-milestone--parkin academic-vertical-milestone--right" tabIndex={0} role="group" onPointerEnter={() => focusMilestone("parkin")} onPointerLeave={clearMilestone} onFocus={() => focusMilestone("parkin")} onBlur={clearMilestone}>
                   <Trophy size={14} aria-hidden="true" /><div><span>{copy.academic.parkin}</span><strong>{copy.academic.award}</strong><CredentialViewer icon="award" title={copy.academic.award} subtitle="ParkinCare · Service-learning Project Exhibition · 16 April 2025" image="/credentials/parkincare-best-engineered-product-award.png" alt="Best Engineered Product Award certificate for the ParkinCare Parkinson Detection Game" triggerLabel={copy.academic.awardCredential} /></div>
                 </article>
               </div>
@@ -327,6 +348,7 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
                 <h3>{copy.academic.masters}</h3>
                 <p className="academic-vertical-institution">{copy.academic.hkust}</p>
               </article>
+              </div>
             </div>
           </div>
         </div>

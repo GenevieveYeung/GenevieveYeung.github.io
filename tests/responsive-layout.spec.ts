@@ -92,6 +92,39 @@ test("narrow viewport layout remains one responsive composition", async ({ brows
       const firstWorkSummary = page.getByTestId("work-row").first().locator(".experience-index-summary");
       await expect(firstWorkSummary).toBeVisible();
       expect(await firstWorkSummary.evaluate(element => Number.parseFloat(getComputedStyle(element).opacity))).toBeGreaterThan(0.8);
+
+      const compactState = await page.evaluate(() => {
+        const section = document.querySelector<HTMLElement>('[data-testid="education-section"]');
+        const compact = section?.querySelector<HTMLElement>(".academic-journey-responsive-ui");
+        const desktop = section?.querySelector<HTMLElement>(".academic-journey-desktop-scene");
+        const years = section?.querySelector<HTMLElement>(".academic-responsive-years");
+        const polyu = section?.querySelector<HTMLElement>(".academic-path-card--polyu");
+        const recognition = section?.querySelector<HTMLElement>(".academic-highlights-compact");
+        const bridge = section?.querySelector<HTMLElement>(".academic-responsive-bridge");
+        const hkust = section?.querySelector<HTMLElement>(".academic-path-card--hkust");
+        const visible = (element: HTMLElement | null) => Boolean(element && getComputedStyle(element).display !== "none" && element.getBoundingClientRect().height > 0);
+        return {
+          compactVisible: visible(compact),
+          desktopHidden: desktop ? getComputedStyle(desktop).display === "none" : false,
+          yearRailHidden: years ? getComputedStyle(years).display === "none" : false,
+          order: [polyu, recognition, bridge, hkust].map(element => element?.getBoundingClientRect().top ?? -1),
+          heroPortrait: document.querySelector<HTMLElement>('[data-testid="hero-portrait"]')?.getBoundingClientRect().toJSON(),
+          hero: document.querySelector<HTMLElement>('[data-testid="hero"]')?.getBoundingClientRect().toJSON(),
+          reading: document.querySelector<HTMLElement>("#reading > .section-wrap")?.getBoundingClientRect().toJSON(),
+        };
+      });
+      expect(compactState.compactVisible, `compact Academic UI missing at ${viewport.width}px`).toBe(true);
+      expect(compactState.desktopHidden, `desktop Academic scene remains at ${viewport.width}px`).toBe(true);
+      expect(compactState.yearRailHidden, `decorative year rail remains at ${viewport.width}px`).toBe(true);
+      expect(compactState.order.every((value, index, values) => index === 0 || value > values[index - 1]), `Academic order is not vertical at ${viewport.width}px`).toBe(true);
+      if (compactState.heroPortrait && compactState.hero) {
+        expect(compactState.heroPortrait.x).toBeGreaterThanOrEqual(compactState.hero.x - 1);
+        expect(compactState.heroPortrait.right).toBeLessThanOrEqual(compactState.hero.right + 1);
+      }
+      if (compactState.reading) {
+        expect(compactState.reading.x).toBeGreaterThanOrEqual(-1);
+        expect(compactState.reading.right).toBeLessThanOrEqual(viewport.width + 1);
+      }
     }
 
     expect(runtimeErrors.filter(error => !isBlockedExternalFont(error)), `runtime errors at ${viewport.width}px`).toEqual([]);

@@ -2320,6 +2320,7 @@ body{overflow-x:hidden}
 .section-deck-panel > .section-deck-entrance > .cta-section{padding-inline:var(--page-gutter)}
 .section-deck-panel > .section-deck-entrance > .cta-section > .section-wrap{width:min(900px,100%);padding-inline:0}
 .academic-journey-polyu-block{display:contents}
+.academic-journey-responsive-ui{display:none}
 
 @media (max-width:900px){
   html{scroll-padding-top:var(--header-height)}
@@ -2495,7 +2496,7 @@ body{overflow-x:hidden}
    geometry becomes cramped. These rules are the single final contract for
    1100px and below; the desktop chapter deck remains unchanged above it. */
 @media (max-width:1100px){
-  :root{--compact-gutter:clamp(20px,4vw,32px);--header-height:64px}
+  :root{--compact-gutter:clamp(20px,4vw,32px);--header-height:64px;--compact-content-gutter:clamp(18px,5.2vw,24px)}
   html{scroll-padding-top:var(--header-height)}
   .nav-shell{min-height:var(--header-height)}
   .nav-shell-inner{width:100%;min-height:var(--header-height);padding-inline:var(--compact-gutter);grid-template-columns:minmax(0,1fr) max-content;gap:18px}
@@ -2517,13 +2518,19 @@ body{overflow-x:hidden}
   .section-deck-panel > .section-deck-entrance > .photography-journal-section,
   .section-deck-panel > .section-deck-entrance > .cta-section{padding-inline:var(--compact-gutter);border-top-color:var(--line)}
 
-  .personal-hero{width:calc(100% - (var(--compact-gutter) * 2));grid-template-columns:1fr;gap:42px;padding:58px 0 64px}
-  .hero-personal-copy{max-width:760px}
-  .hero-personal-copy h1{max-width:15ch;font-size:clamp(46px,7vw,66px);line-height:1.01}
+  .personal-hero{width:100%;max-width:none;margin-inline:0;grid-template-columns:minmax(0,1fr);gap:46px;padding:58px var(--compact-content-gutter) 64px;text-align:center}
+  .hero-personal-copy{width:min(100%,620px);margin-inline:auto}
+  .hero-personal-copy h1,.hero-lede,.hero-human{margin-left:auto;margin-right:auto}
+  .hero-actions,.hero-facts{justify-content:center}
+  .hero-education-copy{text-align:left}
+  .hero-personal-copy h1{max-width:100%;margin-inline:auto;font-size:clamp(43px,7vw,66px);line-height:1.01;text-wrap:balance;overflow-wrap:break-word}
+  .hero-personal-copy h1 br{display:block}
+  .hero-personal-copy h1{contain:inline-size}
   .hero-lede{max-width:620px;font-size:16px}
-  .hero-photo-wrap{width:min(100%,680px);min-height:0;aspect-ratio:1/1;max-width:none}
+  .hero-photo-wrap{width:min(100%,540px);min-height:0;aspect-ratio:1/1;max-width:none;margin:0 auto}
   .photo-frame{inset:0}
   .hero-mountain{left:50%;width:100%;transform:translateX(-50%)}
+  .hero-mountain-base,.hero-mountain-clear{transform:none}
 
   .main-content-section{padding-top:84px;padding-bottom:88px}
   .main-section-heading{display:block;margin-bottom:34px}
@@ -2545,13 +2552,43 @@ body{overflow-x:hidden}
   .work-dossier{grid-template-columns:1fr;gap:14px}
   .work-dossier .work-details__content{grid-column:auto}
   .work-responsibilities{font-size:15px;gap:14px}
-  .project-filter-bar{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .project-filter-bar{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;contain:paint}
   .project-filter-bar::-webkit-scrollbar{display:none}
   .project-filter{flex:0 0 auto}
   .project-dossier-lead,.project-dossier-support{grid-template-columns:1fr;gap:18px}
   .project-pull-stat{text-align:left}
 
   .academic-journey-section{min-height:0;padding-top:82px;padding-bottom:86px}
+  .academic-journey-desktop-scene{display:none}
+  .academic-journey-responsive-ui{display:grid;grid-template-columns:minmax(0,1fr);gap:0;align-items:stretch}
+  .academic-journey-responsive-heading{grid-column:1/-1;margin-bottom:24px}
+  .academic-journey-responsive-heading h2{max-width:18ch;margin:12px 0 0;font-size:clamp(34px,5.3vw,52px);line-height:1.04;letter-spacing:-.06em}
+  .academic-responsive-years{display:none}
+  .academic-responsive-year{position:relative;display:block;padding-right:9px;white-space:nowrap}
+  .academic-responsive-year::after{content:"";position:absolute;right:-1px;top:50%;width:7px;height:1px;background:#b9cbe4;transform:translateY(-50%)}
+  .academic-responsive-content{min-width:0;display:flex;flex-direction:column;gap:0}
+  .academic-responsive-content > .academic-journey-heading{display:none}
+  .academic-responsive-content > .academic-path-grid{display:contents}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card{width:100%;min-width:0;padding:0 0 22px;border:0;border-bottom:1px solid #dce4ee;background:transparent;box-shadow:none}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card-head{grid-template-columns:30px 58px minmax(0,1fr);gap:12px}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card--polyu{order:1}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card--hkust{order:4;padding-top:22px}
+  .academic-responsive-content > .academic-path-grid > .academic-path-connector{display:none}
+  .academic-responsive-content .academic-path-copy h3{font-size:18px;line-height:1.2}
+  .academic-responsive-content .academic-path-copy .academic-degree{font-size:16px;line-height:1.25}
+  .academic-responsive-content .academic-path-copy .academic-secondary{font-size:13px;line-height:1.35}
+  .academic-responsive-content .academic-path-copy .academic-secondary{display:none}
+  .academic-responsive-content .academic-highlights-compact{order:2;margin:0;padding:18px 0 20px;border-bottom:1px solid #dce4ee}
+  .academic-responsive-content .academic-highlights-compact-heading{margin-bottom:10px}
+  .academic-responsive-content .academic-highlights-grid{grid-template-columns:1fr;gap:0}
+  .academic-responsive-content .academic-highlight-compact,.academic-responsive-content .academic-highlight-compact:nth-child(n+2){padding:11px 0;border:0;border-top:1px solid #e2e8f0}
+  .academic-responsive-content .academic-highlight-compact:first-child{border-top:0}
+  .academic-responsive-content .academic-path-card--polyu + .academic-path-connector + .academic-path-card--hkust{order:4}
+  .academic-responsive-bridge{order:3;display:block;margin:0;padding:18px 0;border-bottom:1px solid #dce4ee;color:var(--blue)}
+  .academic-responsive-bridge span{display:block;font:10px/1.45 'DM Mono',monospace;letter-spacing:.08em}
+  .academic-responsive-bridge strong{display:block;margin-top:7px;font-size:clamp(18px,4.8vw,24px);line-height:1.14;letter-spacing:-.04em}
+  .academic-responsive-content .academic-path-card--hkust{margin-top:0}
+  .skill-field{display:none}
   .academic-journey-sticky{position:relative;top:auto;min-height:0;padding:0}
   .academic-journey-heading{margin-bottom:28px}
   .academic-journey-heading h2{max-width:20ch;font-size:clamp(36px,5.3vw,54px)}
@@ -2573,20 +2610,21 @@ body{overflow-x:hidden}
   /* The reading deck is an intentional horizontal scroller. Clip its
      overspill at the section edge so it cannot widen the document itself. */
   .selected-reading-section{overflow-x:clip}
+  .selected-reading-section>.section-wrap{width:100%;max-width:760px;margin-inline:auto;padding-inline:var(--compact-content-gutter)}
   .reading-layout{grid-template-columns:1fr;gap:32px}
   .reading-heading h2{max-width:20ch;font-size:clamp(36px,5.2vw,52px)}
   .reading-intro{max-width:600px}
   .reading-deck{transform:none}
-  .reading-deck__stage{display:flex;height:auto;gap:18px;overflow-x:auto;padding:16px var(--compact-gutter) 28px;margin-inline:calc(var(--compact-gutter) * -1);scroll-snap-type:x proximity;scrollbar-width:none}
+  .reading-deck__stage{display:flex;height:auto;gap:18px;overflow-x:auto;padding:16px 0 28px;margin-inline:0;scroll-snap-type:x proximity;scrollbar-width:none;scroll-padding-inline:0;contain:paint}
   .reading-deck__stage::-webkit-scrollbar{display:none}
-  .reading-card-shell{position:relative;top:auto;left:auto;flex:0 0 min(330px,calc(100vw - (var(--compact-gutter) * 2) - 28px));transform:none!important;scroll-snap-align:start}
+  .reading-card-shell{position:relative;top:auto;left:auto;flex:0 0 min(330px,100%);transform:none!important;scroll-snap-align:start}
   .reading-card-face{min-height:438px}
   .reading-detail{grid-template-columns:120px minmax(0,1fr) 34px;gap:18px}
 
   .photography-journal-section{padding-top:84px;padding-bottom:78px}
   .photography-journal-intro h2{max-width:20ch;font-size:clamp(38px,5.5vw,56px)}
   .photography-journal-intro p{max-width:600px}
-  .journal-rail-viewport{width:calc(100% + (var(--compact-gutter) * 2));margin-left:calc(var(--compact-gutter) * -1);overflow:hidden}
+  .journal-rail-viewport{width:100%;margin-left:0;overflow:hidden;contain:paint}
   .journal-rail{--journal-card-width:min(30vw,280px);gap:22px;padding-inline:var(--compact-gutter)}
   .journal-rail-caption,.photography-journal-closing{width:100%}
   .cta-section{padding-top:84px;padding-bottom:72px}
@@ -2600,15 +2638,18 @@ body{overflow-x:hidden}
   :root{--compact-gutter:clamp(16px,5vw,22px)}
   .nav-shell-inner{padding-inline:var(--compact-gutter)}
   .nav-menu-toggle{width:36px;height:36px}
-  .personal-hero{width:calc(100% - (var(--compact-gutter) * 2));gap:30px;padding-top:42px;padding-bottom:52px}
-  .hero-personal-copy h1{max-width:16ch;font-size:clamp(38px,10.5vw,48px);line-height:1.03;letter-spacing:-.065em}
+  .personal-hero{width:100%;padding-inline:var(--compact-content-gutter);gap:30px;padding-top:42px;padding-bottom:52px;text-align:center}
+  .hero-personal-copy h1,.hero-lede,.hero-human{margin-left:auto;margin-right:auto}
+  .hero-actions{justify-content:center}
+  .hero-personal-copy h1{max-width:100%;font-size:clamp(38px,10.5vw,48px);line-height:1.03;letter-spacing:-.065em;text-wrap:wrap;overflow-wrap:break-word}
+  .hero-personal-copy h1 br{display:block;contain:inline-size}
   .hero-location-line{font-size:clamp(23px,7vw,31px)}
   .hero-lede{font-size:14px;line-height:1.6}
   .hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
   .hero-actions>*{min-width:0;justify-content:center}
-  .hero-facts{display:grid;gap:9px;margin-top:20px;font-size:10px}
+  .hero-facts{display:grid;gap:9px;margin-top:20px;font-size:10px;text-align:left}
   .hero-education-copy>span{display:grid;gap:2px}
-  .hero-photo-wrap{aspect-ratio:1/1;margin-inline:auto}
+  .hero-photo-wrap{width:min(100%,360px);aspect-ratio:1/1;margin-inline:auto}
   .skill-field{display:none}
   .main-content-section{padding-top:66px;padding-bottom:70px}
   .main-section-heading h2{max-width:18ch;font-size:clamp(32px,9vw,42px)}
@@ -2628,6 +2669,24 @@ body{overflow-x:hidden}
   .project-thesis{font-size:15px;line-height:1.55}
   .project-detail-body{padding-inline:0}
   .academic-journey-section{padding-top:66px;padding-bottom:70px}
+  .academic-journey-section{scroll-margin-top:calc(var(--header-height,64px) + 18px)}
+  .academic-journey-responsive-ui{grid-template-columns:minmax(0,1fr);gap:0}
+  .academic-journey-responsive-heading{margin-bottom:20px}
+  .academic-journey-responsive-heading h2{font-size:clamp(32px,9vw,44px)}
+  .academic-responsive-years{display:none}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card > .academic-path-card-head{grid-template-columns:24px minmax(0,1fr)!important;gap:9px!important}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card > .academic-path-card-head > .academic-path-index{grid-column:1!important;grid-row:1 / span 2!important}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card > .academic-path-card-head > .academic-path-logo-wrap{grid-column:2!important;grid-row:1!important;justify-self:start;width:84px;height:42px}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card > .academic-path-card-head > .academic-path-copy{grid-column:2!important;grid-row:2!important}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card > .academic-path-card-head > .academic-path-logo-wrap .academic-path-logo{width:78px;max-width:100%;height:34px}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card > .academic-path-card-head > .academic-path-logo-wrap .academic-path-logo--polyu{height:30px}
+  .academic-responsive-content > .academic-path-grid > .academic-path-card > .academic-path-card-head > .academic-path-logo-wrap .academic-path-logo--hkust{height:36px}
+  .academic-responsive-content .academic-path-copy h3{font-size:16px}
+  .academic-responsive-content .academic-path-copy .academic-degree{font-size:15px}
+  .academic-responsive-content .academic-path-copy .academic-secondary{font-size:12px}
+  .academic-responsive-bridge{padding:15px 0}
+  .academic-responsive-bridge span{font-size:9px}
+  .academic-responsive-bridge strong{font-size:18px}
   .academic-journey-heading{margin-bottom:20px}
   .academic-journey-heading h2{font-size:clamp(32px,9vw,44px)}
   .academic-journey-school-meta{gap:10px;margin-bottom:12px}
@@ -2642,12 +2701,13 @@ body{overflow-x:hidden}
   .academic-journey-milestones:before{font-size:9px}
   .academic-journey-milestone,.academic-journey-milestone:not(:first-child),.academic-journey-milestone:nth-child(2n+1){padding:11px 0;border-left:0}
   .academic-journey-milestone strong{font-size:13px}
+  .selected-reading-section>.section-wrap{padding-inline:var(--compact-content-gutter)}
   .reading-layout{gap:25px}
   .reading-heading h2{font-size:clamp(32px,9vw,44px)}
   .reading-intro{font-size:14px}
   .reading-heading-meta{font-size:9px;gap:6px}
   .reading-controls{margin-top:22px}
-  .reading-card-shell{flex-basis:calc(100vw - (var(--compact-gutter) * 2) - 18px)}
+  .reading-card-shell{flex-basis:100%}
   .reading-card-face{min-height:420px;padding:16px 15px 17px}
   .reading-card-face__cover-wrap{height:190px;margin-inline:8px}
   .reading-card-face__title{font-size:20px}
@@ -2674,10 +2734,19 @@ body{overflow-x:hidden}
 }
 
 @media (max-width:375px){
+  .hero-actions{grid-template-columns:1fr;max-width:220px;margin-inline:auto}
+  .academic-journey-responsive-ui{grid-template-columns:minmax(0,1fr);gap:0}
+  .academic-journey-responsive-heading h2{font-size:32px}
+  .academic-responsive-years{display:none}
+  .hero-photo-wrap{width:min(100%,320px)}
   .experience-index-trigger{grid-template-columns:25px 36px minmax(0,1fr) 28px;gap:7px}
   .experience-index-icon,.work-accordion .experience-index-icon{width:34px;height:34px}
   .experience-index-summary strong{font-size:16px}
   .experience-index-summary em{font-size:10px}
   .journal-rail{--journal-card-width:82vw}
   .cta-actions{grid-template-columns:1fr}
+}
+
+@media (max-width:350px){
+  .hero-personal-copy h1{font-size:36px;letter-spacing:-.06em}
 }

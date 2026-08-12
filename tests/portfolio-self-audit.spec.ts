@@ -221,9 +221,9 @@ test("portfolio full-site self-audit", async ({ browser }) => {
 
         const education = page.getByTestId("education-section");
         await education.scrollIntoViewIfNeeded();
-        await expect(education.getByText("BSc Biomedical Engineering")).toBeVisible();
-        await expect(education.getByText("Artificial Intelligence & Data Analytics")).toBeVisible();
-        await expect(education.getByText("MSc Artificial Intelligence")).toBeVisible();
+        await expect(education.getByText("BSc Biomedical Engineering").first()).toBeVisible();
+        await expect(education.getByText("Artificial Intelligence & Data Analytics").first()).toBeVisible();
+        await expect(education.getByText("MSc Artificial Intelligence").first()).toBeVisible();
         await education.getByRole("button", { name: "View degree credential" }).click();
         await expect(page.locator(".credential-lightbox")).toBeVisible();
         await page.getByRole("button", { name: "Close credential viewer" }).click();

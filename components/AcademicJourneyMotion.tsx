@@ -1,12 +1,12 @@
 "use client";
 
-import type { HTMLAttributes } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Award, Brain, FileText, GraduationCap, Trophy } from "lucide-react";
 import Image from "next/image";
 import CredentialViewer from "@/components/CredentialViewer";
 
-type AcademicJourneyMotionProps = HTMLAttributes<HTMLElement>;
+type AcademicJourneyMotionProps = HTMLAttributes<HTMLElement> & { children?: ReactNode };
 type MilestoneKey = "deans" | "wcsst" | "brain" | "parkin";
 
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
@@ -36,7 +36,7 @@ const yearWeight = (progress: number, center: number, hold: number) => {
   return 1 - smoothStep((progress - holdEnd) / (exitEnd - holdEnd));
 };
 
-export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyMotionProps) {
+export default function AcademicJourneyMotion({ id, children, ...props }: AcademicJourneyMotionProps) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const stickyRef = useRef<HTMLDivElement | null>(null);
   const [activeMilestone, setActiveMilestone] = useState<MilestoneKey | null>(null);
@@ -157,6 +157,7 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
       data-active-milestone={activeMilestone ?? ""}
     >
       <div ref={stickyRef} className="academic-journey-sticky">
+        <div className="academic-journey-desktop-scene">
         <div className="academic-journey-heading">
           <div className="eyebrow">ACADEMIC JOURNEY</div>
           <h2 id="academic-journey-heading">The academic foundation behind my work.</h2>
@@ -256,6 +257,26 @@ export default function AcademicJourneyMotion({ id, ...props }: AcademicJourneyM
             <div className="academic-journey-final-item"><FileText size={16} aria-hidden="true" /><div><span>FIRST-AUTHOR RESEARCH</span><strong>WCSST 2025</strong></div></div>
             <div className="academic-journey-final-item"><Brain size={16} aria-hidden="true" /><div><span>BRAIN SCIENCE RESEARCH</span><strong>Third Prize · English Group</strong></div></div>
             <div className="academic-journey-final-item"><Trophy size={16} aria-hidden="true" /><div><span>PARKINCARE</span><strong>Best Engineered Product Award</strong></div></div>
+          </div>
+        </div>
+        </div>
+
+        <div className="academic-journey-responsive-ui">
+          <div className="academic-journey-responsive-heading">
+            <div className="eyebrow">ACADEMIC JOURNEY</div>
+            <h2>The academic foundation behind my work.</h2>
+          </div>
+          <aside className="academic-responsive-years" aria-hidden="true">
+            {yearSequence.map(({ year }) => (
+              <span key={year} className="academic-responsive-year">{year}</span>
+            ))}
+          </aside>
+          <div className="academic-responsive-content">
+            {children}
+            <div className="academic-responsive-bridge" aria-label="Secondary Major in Artificial Intelligence and Data Analytics">
+              <span>THE BRIDGE · SECONDARY MAJOR IN</span>
+              <strong>Artificial Intelligence &amp; Data Analytics</strong>
+            </div>
           </div>
         </div>
       </div>

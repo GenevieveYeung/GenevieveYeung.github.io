@@ -21,11 +21,14 @@ function ProjectDetails({ project, cover, locale }: { project: (typeof projectLi
   const localized = projectContent[locale][project.slug] ?? projectContent.en[project.slug];
   const labels = locale === "en" ? { contribution: "Contribution", methods: "Methods", highlights: "Project highlights" } : locale === "zh-CN" ? { contribution: "个人贡献", methods: "方法", highlights: "项目亮点" } : { contribution: "個人貢獻", methods: "方法", highlights: "項目亮點" };
   return <div className="project-dossier project-detail-body project-row-body">
-    <div className="project-dossier-lead"><p className="project-thesis">{localized.summary}</p><div className="project-pull-stat"><strong>{project.metric}</strong><span>{localized.detail}</span></div></div>
+    <div className="project-dossier-lead"><div>{localized.subtitle && <p className="project-subtitle">{localized.subtitle}</p>}<p className="project-thesis">{localized.summary}</p></div><div className="project-pull-stat">{localized.results?.slice(0, 2).map(result => <div className="project-pull-stat-item" key={`${result.value}-${result.label}`}><strong>{result.value}</strong><span>{result.label}</span></div>) ?? <div className="project-pull-stat-item"><strong>{project.metric}</strong><span>{localized.detail}</span></div>}</div></div>
     {cover && <div className="project-image-wrap"><Image className="project-cover" src={cover} width={projectCoverDimensions[project.slug]?.width ?? 1600} height={projectCoverDimensions[project.slug]?.height ?? 900} sizes="(max-width: 700px) calc(100vw - 76px), 1060px" priority={project.slug === "vgrf-koa-prediction"} alt={`${localized.title} project figure`} /></div>}
-    <div className="project-dossier-support"><div><span className="project-detail-label">{labels.contribution}</span><p>{localized.contribution}</p></div><div><span className="project-detail-label">{labels.methods}</span><p>{project.tools}</p></div></div>
+    {localized.process?.length ? <div className="project-process"><span className="project-detail-label">{localized.processHeading}</span><div className="project-process-grid">{localized.process.map(step => <article key={step.kicker}><span>{step.kicker}</span><strong>{step.title}</strong><p>{step.detail}</p></article>)}</div></div> : null}
+    <div className="project-dossier-support"><div><span className="project-detail-label">{labels.contribution}</span><p>{localized.contribution.split("\n\n").map((paragraph, index) => <span className="project-copy-paragraph" key={`${project.slug}-contribution-${index}`}>{paragraph}</span>)}</p></div><div><span className="project-detail-label">{labels.methods}</span><p>{localized.methods?.map(method => <span className="project-method" key={method}>{method}</span>) ?? project.tools}</p></div></div>
     <ul className="project-highlights" aria-label={labels.highlights}>{localized.highlights.map(highlight => <li key={highlight}>{highlight}</li>)}</ul>
+    {localized.results?.length ? <div className="project-results">{localized.results.map(result => <div key={`${result.value}-${result.label}`}><strong>{result.value}</strong><span>{result.label}</span></div>)}</div> : null}
     {localized.award && <div className="project-award">{localized.award}</div>}
+    {localized.paper && <a className="project-paper-link" href={localized.paper.href} target="_blank" rel="noreferrer">{localized.paper.label} ↗</a>}
   </div>;
 }
 

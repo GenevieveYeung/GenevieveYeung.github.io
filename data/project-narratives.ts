@@ -1,0 +1,238 @@
+export type ProjectStep = { kicker: string; title: string; detail: string };
+export type ProjectResult = { value: string; label: string };
+export type ProjectNarrative = {
+  title: string;
+  subtitle?: string;
+  summary: string;
+  contribution: string;
+  detail: string;
+  highlights: string[];
+  award?: string;
+  processHeading?: string;
+  process?: ProjectStep[];
+  methods?: string[];
+  results?: ProjectResult[];
+  paper?: { label: string; href: string };
+};
+
+export const projectNarratives: Record<"en" | "zh-CN" | "zh-HK", Record<string, ProjectNarrative>> = {
+  en: {
+    "vgrf-koa-prediction": {
+      title: "Smartphone-based vGRF Estimation & KOA Screening",
+      subtitle: "From a single walking video to ground-reaction-force estimation and lightweight KOA screening",
+      summary: "A lightweight pipeline that estimates vertical ground reaction force (vGRF) from smartphone gait video, then uses derived gait features to support KOA screening.",
+      contribution: "Built the research workflow from paired video and force-plate data through pose extraction, vGRF estimation, gait-feature analysis, and KOA screening.",
+      detail: "vGRF Estimation · KOA Screening",
+      highlights: ["451 participants", "R² ≈ 0.96 ± 0.01 for vGRF estimation", "KOA screening AUC ≈ 0.70"],
+      processHeading: "How it works",
+      process: [
+        { kicker: "01 — Capture Gait", title: "Record walking using a smartphone camera", detail: "Collected paired smartphone video and force-plate measurements from 451 participants for model development and validation." },
+        { kicker: "02 — Extract Motion", title: "Estimate body pose and gait features", detail: "Applied pose estimation to extract body landmarks and convert smartphone video into structured gait representations." },
+        { kicker: "03 — Estimate vGRF", title: "Predict ground reaction force without a force plate at inference", detail: "Trained and compared deep-learning models to reconstruct vertical ground reaction force from video-derived gait information." },
+        { kicker: "04 — Screen KOA", title: "Use predicted vGRF patterns for KOA classification", detail: "Extracted characteristic features from estimated vGRF curves and combined them with age, sex and BMI in a Random Forest classifier for KOA screening." },
+      ],
+      results: [{ value: "451 participants", label: "Paired smartphone video and force-plate dataset" }, { value: "R² ≈ 0.96 ± 0.01", label: "vGRF estimation" }, { value: "AUC ≈ 0.70", label: "KOA screening" }],
+      methods: ["BlazePose", "deep-learning model comparison", "Random Forest", "smartphone video + force-plate data"],
+      paper: { label: "Read the WCSST 2025 paper", href: "/research/wcsst-2025-vgrf-koa.pdf" },
+    },
+    "fall-detection-system": {
+      title: "Video-based Real-time Fall Detection",
+      subtitle: "98.81% test accuracy · Real-time fall-state classification",
+      summary: "A real-time fall-detection system that monitors video continuously, identifies whether a person is falling, and triggers an alert when a fall is detected.",
+      contribution: "Built the end-to-end real-time detection workflow, engineered pose-based temporal features, compared multiple sequence-model architectures, and integrated the final classifier into a live fall-state alerting pipeline.",
+      detail: "Real-time fall-state output",
+      highlights: ["98.81% test accuracy", "Real-time fall-state classification", "Video-to-alert prototype"],
+      processHeading: "How it works",
+      process: [
+        { kicker: "01 — Video Input", title: "Capture a continuous RGB video stream", detail: "Monitor the incoming video continuously as the source for real-time classification." },
+        { kicker: "02 — Pose Estimation", title: "Extract body landmarks from each frame using MediaPipe Pose", detail: "Convert each frame into a structured body-pose representation." },
+        { kicker: "03 — Temporal Motion", title: "Convert consecutive pose landmarks into movement sequences and motion features", detail: "Represent how the body moves over time rather than treating frames independently." },
+        { kicker: "04 — Fall Classification", title: "Evaluate temporal models", detail: "Compared 1D CNN, RNN, BiLSTM and CNN–Transformer architectures for fall-state classification." },
+        { kicker: "05 — Real-time Alert", title: "Classify the current state and trigger an alert when a fall is detected", detail: "Turn the model output into a clear live fall-state alert." },
+      ],
+      results: [{ value: "98.81%", label: "Test accuracy" }, { value: "Real-time", label: "Fall-state output" }],
+      methods: ["MediaPipe Pose", "temporal feature extraction", "1D CNN / RNN / BiLSTM / CNN–Transformer"],
+    },
+    parkincare: {
+      title: "ParkinCare — Gamified Parkinson’s Screening System",
+      subtitle: "One interactive experience combining screening, physical activity and multimodal sensing",
+      summary: "A gamified screening system that turns multiple Parkinson’s-related assessments into one interactive experience, allowing users to complete motor and cognitive tasks while the system automatically collects and analyses their performance.",
+      contribution: "Designed and integrated the end-to-end gamified screening experience, connecting Unity-based interactive tasks with AI image classification, RFID user identification and custom Arduino/HX711 sensing hardware.\n\nImplemented drawing, grip-strength, reaction-time and memory challenges within a unified workflow, enabling users to complete multiple screening-related assessments through a single interactive system.",
+      detail: "Spiral-drawing classification accuracy",
+      highlights: ["95.83% spiral-drawing classification accuracy", "Multi-task interactive screening", "Best Engineered Product Award"],
+      award: "Best Engineered Product Award",
+      processHeading: "User experience",
+      process: [
+        { kicker: "01 — Login", title: "RFID-based user identification", detail: "Identify the participant before the screening tasks begin." },
+        { kicker: "02 — Play & Assess", title: "Complete a series of gamified screening tasks", detail: "Keep the experience interactive while collecting performance data." },
+        { kicker: "03 — Multi-modal Measurement", title: "Drawing · Grip Strength · Reaction Time · Memory", detail: "Combine motor and cognitive tasks in one user flow." },
+        { kicker: "04 — AI & Sensor Analysis", title: "Spiral-image classification + hardware measurements", detail: "Connect AI classification with readings from custom sensing hardware." },
+        { kicker: "05 — Screening Result", title: "Aggregate task outcomes into a unified user result", detail: "Bring the separate task outputs together for one screening result." },
+      ],
+      results: [{ value: "95.83%", label: "Spiral-drawing classification accuracy" }, { value: "Awarded", label: "Best Engineered Product Award" }],
+      methods: ["AI: ResNet-based spiral classification", "Software: Unity", "Hardware: Arduino · HX711 · RFID", "Tasks: Drawing · Grip Strength · Reaction Time · Memory"],
+    },
+    "aiot-edge-cloud-scheduling": {
+      title: "Adaptive Edge–Cloud AI Scheduling for AIoT",
+      subtitle: "Deploying AI effectively under real-world computing constraints",
+      summary: "AI models can be difficult to deploy on resource-constrained IoT devices. This project explores how adaptive edge–cloud scheduling can route AI tasks to the most suitable computing environment for practical real-world deployment.",
+      contribution: "Designed an adaptive scheduling concept for deploying AI workloads across edge and cloud resources, focusing on how runtime constraints can guide where incoming AI tasks should be executed.",
+      detail: "Scheduling Logic",
+      highlights: ["Incoming AI task", "Edge / cloud scheduling decision", "Practical AIoT deployment concept"],
+      processHeading: "Scheduling Logic",
+      process: [
+        { kicker: "01 — Receive AI workload", title: "Incoming inference or AI task", detail: "Start with the task that needs to be executed." },
+        { kicker: "02 — Evaluate deployment conditions", title: "Determine whether local execution is suitable", detail: "Assess the current deployment context before selecting a compute location." },
+        { kicker: "03 — Select compute location", title: "Route the task to edge or cloud", detail: "Make the scheduling decision that best fits the available environment." },
+        { kicker: "04 — Execute efficiently", title: "Use available computing resources more effectively", detail: "Complete the workload through the selected edge or cloud path." },
+      ],
+      methods: ["Incoming AI workload", "Scheduler decision", "Edge execution", "Cloud offloading"],
+    },
+  },
+  "zh-CN": {
+    "vgrf-koa-prediction": {
+      title: "手机视频 vGRF 估计与 KOA 筛查",
+      subtitle: "从一段步行视频，到地面反作用力估计和轻量级 KOA 筛查",
+      summary: "这是一套轻量级流程：先从手机步行视频估计垂直地面反作用力（vGRF），再用提取出的步态特征辅助 KOA 筛查。",
+      contribution: "从配对视频与测力台数据，到姿态提取、vGRF 估计、步态特征分析和 KOA 筛查，搭建并评估整套研究流程。",
+      detail: "vGRF 估计 · KOA 筛查",
+      highlights: ["451 名参与者", "vGRF 估计 R² ≈ 0.96 ± 0.01", "KOA 筛查 AUC ≈ 0.70"],
+      processHeading: "实现流程",
+      process: [
+        { kicker: "01 — 采集步态", title: "用手机摄像头记录行走", detail: "收集 451 名参与者的配对手机视频与测力台数据，用于模型开发和验证。" },
+        { kicker: "02 — 提取动作", title: "估计人体姿态和步态特征", detail: "通过姿态估计提取人体关键点，把手机视频转成结构化步态表示。" },
+        { kicker: "03 — 估计 vGRF", title: "推断不依赖测力台的地面反作用力", detail: "训练并比较深度学习模型，从视频提取的步态信息重建垂直地面反作用力。" },
+        { kicker: "04 — 筛查 KOA", title: "用预测的 vGRF 模式进行 KOA 分类", detail: "从估计出的 vGRF 曲线提取特征，再结合年龄、性别和 BMI，使用 Random Forest 辅助 KOA 筛查。" },
+      ],
+      results: [{ value: "451 名参与者", label: "手机视频与测力台配对数据集" }, { value: "R² ≈ 0.96 ± 0.01", label: "vGRF 估计" }, { value: "AUC ≈ 0.70", label: "KOA 筛查" }],
+      methods: ["BlazePose", "深度学习模型比较", "Random Forest", "手机视频 + 测力台数据"],
+      paper: { label: "阅读 WCSST 2025 论文", href: "/research/wcsst-2025-vgrf-koa.pdf" },
+    },
+    "fall-detection-system": {
+      title: "基于视频的实时跌倒检测",
+      subtitle: "98.81% 测试准确率 · 实时跌倒状态分类",
+      summary: "一个持续监测视频的实时跌倒检测系统：识别一个人是否正在跌倒，并在检测到跌倒时触发提醒。",
+      contribution: "搭建端到端实时检测流程，设计基于姿态的时序特征，比较多种序列模型架构，并把最终分类器接入实时跌倒状态提醒流程。",
+      detail: "实时跌倒状态输出",
+      highlights: ["98.81% 测试准确率", "实时跌倒状态分类", "视频到提醒的原型流程"],
+      processHeading: "实现流程",
+      process: [
+        { kicker: "01 — 视频输入", title: "采集连续 RGB 视频流", detail: "持续接收视频，作为实时分类的输入。" },
+        { kicker: "02 — 姿态估计", title: "使用 MediaPipe Pose 提取每帧人体关键点", detail: "把每一帧转换为结构化的人体姿态表示。" },
+        { kicker: "03 — 时序动作", title: "将连续姿态关键点转换为动作序列和运动特征", detail: "关注人体随时间的变化，而不是孤立地处理每一帧。" },
+        { kicker: "04 — 跌倒分类", title: "比较时序模型", detail: "评估 1D CNN、RNN、BiLSTM 和 CNN–Transformer 架构的跌倒状态分类表现。" },
+        { kicker: "05 — 实时提醒", title: "判断当前状态，并在检测到跌倒时触发提醒", detail: "将模型输出转化为清晰的实时跌倒状态提醒。" },
+      ],
+      results: [{ value: "98.81%", label: "测试准确率" }, { value: "实时", label: "跌倒状态输出" }],
+      methods: ["MediaPipe Pose", "时序特征提取", "1D CNN / RNN / BiLSTM / CNN–Transformer"],
+    },
+    parkincare: {
+      title: "ParkinCare — 游戏化帕金森筛查系统",
+      subtitle: "把筛查、体能活动和多模态感知放进一次互动体验",
+      summary: "一个游戏化筛查系统，把多项与帕金森相关的评估整合进同一次互动体验。用户完成运动和认知任务，系统则自动收集并分析表现。",
+      contribution: "设计并整合端到端的游戏化筛查体验，把 Unity 互动任务、AI 图像分类、RFID 用户识别和 Arduino/HX711 传感硬件连接起来。\n\n在同一套流程中实现绘图、握力、反应时间和记忆挑战，让用户一次完成多项筛查相关评估。",
+      detail: "螺旋绘图分类准确率",
+      highlights: ["95.83% 螺旋绘图分类准确率", "多任务互动筛查", "最佳工程产品奖"],
+      award: "最佳工程产品奖",
+      processHeading: "用户体验",
+      process: [
+        { kicker: "01 — 登录", title: "通过 RFID 识别用户", detail: "在筛查任务开始前确认参与者身份。" },
+        { kicker: "02 — 互动评估", title: "完成一系列游戏化筛查任务", detail: "让评估过程保持互动，同时收集用户表现数据。" },
+        { kicker: "03 — 多模态测量", title: "绘图 · 握力 · 反应时间 · 记忆", detail: "把运动和认知任务放进同一套用户流程。" },
+        { kicker: "04 — AI 与传感分析", title: "螺旋图像分类 + 硬件测量", detail: "将 AI 分类与定制传感器硬件的读数连接起来。" },
+        { kicker: "05 — 筛查结果", title: "汇总各项任务，形成统一结果", detail: "把不同任务的输出整合成一个筛查结果。" },
+      ],
+      results: [{ value: "95.83%", label: "螺旋绘图分类准确率" }, { value: "获奖", label: "最佳工程产品奖" }],
+      methods: ["AI：基于 ResNet 的螺旋图像分类", "软件：Unity", "硬件：Arduino · HX711 · RFID", "任务：绘图 · 握力 · 反应时间 · 记忆"],
+    },
+    "aiot-edge-cloud-scheduling": {
+      title: "面向 AIoT 的自适应边缘—云端 AI 调度",
+      subtitle: "在真实计算限制下部署 AI",
+      summary: "AI 模型往往难以直接部署在资源有限的 IoT 设备上。这个项目探索如何通过自适应边缘—云端调度，把 AI 任务交给更合适的计算环境，从而更贴近真实部署。",
+      contribution: "设计跨边缘与云端部署 AI 工作负载的自适应调度概念，重点思考如何根据运行限制决定每个 AI 任务的执行位置。",
+      detail: "调度逻辑",
+      highlights: ["接收 AI 任务", "边缘 / 云端调度决策", "面向实际部署的 AIoT 概念"],
+      processHeading: "调度逻辑",
+      process: [
+        { kicker: "01 — 接收 AI 工作负载", title: "输入推理或 AI 任务", detail: "从需要执行的任务开始。" },
+        { kicker: "02 — 评估部署条件", title: "判断是否适合本地执行", detail: "先看当前部署环境，再选择计算位置。" },
+        { kicker: "03 — 选择计算位置", title: "把任务路由到边缘或云端", detail: "根据可用环境作出调度决定。" },
+        { kicker: "04 — 高效执行", title: "更好地利用现有计算资源", detail: "沿着选定的边缘或云端路径完成任务。" },
+      ],
+      methods: ["输入 AI 工作负载", "调度器决策", "边缘执行", "云端卸载"],
+    },
+  },
+  "zh-HK": {
+    "vgrf-koa-prediction": {
+      title: "手機影片 vGRF 估計及 KOA 篩查",
+      subtitle: "由一段步行影片，到地面反作用力估計和輕量 KOA 篩查",
+      summary: "這套輕量流程先從手機步行影片估計垂直地面反作用力（vGRF），再利用提取出的步態特徵協助 KOA 篩查。",
+      contribution: "由配對影片與測力台數據，到姿態提取、vGRF 估計、步態特徵分析和 KOA 篩查，建立並評估整套研究流程。",
+      detail: "vGRF 估計 · KOA 篩查",
+      highlights: ["451 名參與者", "vGRF 估計 R² ≈ 0.96 ± 0.01", "KOA 篩查 AUC ≈ 0.70"],
+      processHeading: "實現流程",
+      process: [
+        { kicker: "01 — 採集步態", title: "使用手機鏡頭記錄步行", detail: "收集 451 名參與者的配對手機影片與測力台數據，用於模型開發及驗證。" },
+        { kicker: "02 — 提取動作", title: "估計人體姿態和步態特徵", detail: "透過姿態估計提取人體關鍵點，把手機影片轉成結構化步態表示。" },
+        { kicker: "03 — 估計 vGRF", title: "在推理時不依賴測力台，預測地面反作用力", detail: "訓練及比較深度學習模型，從影片提取的步態資訊重建垂直地面反作用力。" },
+        { kicker: "04 — 篩查 KOA", title: "利用預測的 vGRF 模式進行 KOA 分類", detail: "從估計出的 vGRF 曲線提取特徵，再結合年齡、性別和 BMI，使用 Random Forest 協助 KOA 篩查。" },
+      ],
+      results: [{ value: "451 名參與者", label: "手機影片與測力台配對數據集" }, { value: "R² ≈ 0.96 ± 0.01", label: "vGRF 估計" }, { value: "AUC ≈ 0.70", label: "KOA 篩查" }],
+      methods: ["BlazePose", "深度學習模型比較", "Random Forest", "手機影片 + 測力台數據"],
+      paper: { label: "閱讀 WCSST 2025 論文", href: "/research/wcsst-2025-vgrf-koa.pdf" },
+    },
+    "fall-detection-system": {
+      title: "基於影片的即時跌倒檢測",
+      subtitle: "98.81% 測試準確率 · 即時跌倒狀態分類",
+      summary: "一個持續監測影片的即時跌倒檢測系統：識別一個人是否正在跌倒，並在檢測到跌倒時觸發提示。",
+      contribution: "建立端到端即時檢測流程，設計基於姿態的時序特徵，比較多種序列模型架構，並把最終分類器接入即時跌倒狀態提示流程。",
+      detail: "即時跌倒狀態輸出",
+      highlights: ["98.81% 測試準確率", "即時跌倒狀態分類", "由影片到提示的原型流程"],
+      processHeading: "實現流程",
+      process: [
+        { kicker: "01 — 影片輸入", title: "擷取連續 RGB 影片串流", detail: "持續接收影片，作為即時分類的輸入。" },
+        { kicker: "02 — 姿態估計", title: "使用 MediaPipe Pose 提取每幀人體關鍵點", detail: "把每一幀轉換為結構化的人體姿態表示。" },
+        { kicker: "03 — 時序動作", title: "將連續姿態關鍵點轉換為動作序列和運動特徵", detail: "關注人體隨時間的變化，而不是獨立處理每一幀。" },
+        { kicker: "04 — 跌倒分類", title: "比較時序模型", detail: "評估 1D CNN、RNN、BiLSTM 及 CNN–Transformer 架構的跌倒狀態分類表現。" },
+        { kicker: "05 — 即時提示", title: "判斷目前狀態，並在檢測到跌倒時觸發提示", detail: "把模型輸出轉化為清晰的即時跌倒狀態提示。" },
+      ],
+      results: [{ value: "98.81%", label: "測試準確率" }, { value: "即時", label: "跌倒狀態輸出" }],
+      methods: ["MediaPipe Pose", "時序特徵提取", "1D CNN / RNN / BiLSTM / CNN–Transformer"],
+    },
+    parkincare: {
+      title: "ParkinCare — 遊戲化柏金遜症篩查系統",
+      subtitle: "將篩查、體能活動和多模態感知放進一次互動體驗",
+      summary: "一個遊戲化篩查系統，將多項與柏金遜症相關的評估整合到同一次互動體驗。用戶完成運動及認知任務，系統則自動收集及分析表現。",
+      contribution: "設計並整合端到端的遊戲化篩查體驗，將 Unity 互動任務、AI 影像分類、RFID 用戶識別和 Arduino/HX711 傳感硬件連接起來。\n\n在同一套流程中實現繪圖、握力、反應時間和記憶挑戰，讓用戶一次完成多項篩查相關評估。",
+      detail: "螺旋繪圖分類準確率",
+      highlights: ["95.83% 螺旋繪圖分類準確率", "多任務互動篩查", "最佳工程產品獎"],
+      award: "最佳工程產品獎",
+      processHeading: "用戶體驗",
+      process: [
+        { kicker: "01 — 登入", title: "透過 RFID 識別用戶", detail: "在篩查任務開始前確認參與者身份。" },
+        { kicker: "02 — 互動評估", title: "完成一系列遊戲化篩查任務", detail: "讓評估過程保持互動，同時收集用戶表現數據。" },
+        { kicker: "03 — 多模態測量", title: "繪圖 · 握力 · 反應時間 · 記憶", detail: "把運動和認知任務放進同一套用戶流程。" },
+        { kicker: "04 — AI 與傳感分析", title: "螺旋影像分類 + 硬件測量", detail: "將 AI 分類與定制傳感器硬件的讀數連接起來。" },
+        { kicker: "05 — 篩查結果", title: "匯總各項任務，形成統一結果", detail: "把不同任務的輸出整合成一個篩查結果。" },
+      ],
+      results: [{ value: "95.83%", label: "螺旋繪圖分類準確率" }, { value: "獲獎", label: "最佳工程產品獎" }],
+      methods: ["AI：基於 ResNet 的螺旋影像分類", "軟件：Unity", "硬件：Arduino · HX711 · RFID", "任務：繪圖 · 握力 · 反應時間 · 記憶"],
+    },
+    "aiot-edge-cloud-scheduling": {
+      title: "面向 AIoT 的自適應邊緣—雲端 AI 調度",
+      subtitle: "在真實運算限制下部署 AI",
+      summary: "AI 模型往往難以直接部署在資源有限的 IoT 設備上。這個項目探索如何透過自適應邊緣—雲端調度，把 AI 任務交給更合適的運算環境，讓部署更貼近真實情況。",
+      contribution: "設計跨邊緣及雲端部署 AI 工作負載的自適應調度概念，重點思考如何根據運行限制決定每個 AI 任務的執行位置。",
+      detail: "調度邏輯",
+      highlights: ["接收 AI 任務", "邊緣 / 雲端調度決策", "面向實際部署的 AIoT 概念"],
+      processHeading: "調度邏輯",
+      process: [
+        { kicker: "01 — 接收 AI 工作負載", title: "輸入推理或 AI 任務", detail: "從需要執行的任務開始。" },
+        { kicker: "02 — 評估部署條件", title: "判斷是否適合本地執行", detail: "先看目前部署環境，再選擇運算位置。" },
+        { kicker: "03 — 選擇運算位置", title: "把任務路由到邊緣或雲端", detail: "根據可用環境作出調度決定。" },
+        { kicker: "04 — 高效執行", title: "更有效地利用現有運算資源", detail: "沿着選定的邊緣或雲端路徑完成任務。" },
+      ],
+      methods: ["輸入 AI 工作負載", "調度器決策", "邊緣執行", "雲端卸載"],
+    },
+  },
+};

@@ -2,6 +2,7 @@ export type Locale = "en" | "zh-CN" | "zh-HK";
 import { naturalPhotographyContent, naturalProjectContent, naturalReadingContent, naturalUi, naturalWorkContent } from "@/data/i18n-natural";
 import { workCopyOverrides } from "@/data/work-copy";
 import { projectNarratives, type ProjectNarrative } from "@/data/project-narratives";
+import { projectCaseStudies } from "@/data/project-case-studies";
 
 export const localeLabels: Record<Locale, string> = {
   en: "EN",
@@ -17,10 +18,10 @@ export const localeNames: Record<Locale, string> = {
 
 const baseUi = {
   en: {
-    nav: { work: "Work Experience", projects: "Project Experience", education: "Education", beyond: "Beyond Work", contact: "Contact", open: "Open navigation menu", close: "Close navigation menu", phone: "Copy phone number", email: "Copy email address", phoneCopied: "Phone copied", emailCopied: "Email copied", linkedin: "LinkedIn", jobsdb: "JobsDB" },
+    nav: { work: "Experience", projects: "Projects", education: "Education", beyond: "Beyond Work", contact: "Contact", open: "Open navigation menu", close: "Close navigation menu", phone: "Copy phone number", email: "Copy email address", phoneCopied: "Phone copied", emailCopied: "Email copied", linkedin: "LinkedIn", jobsdb: "JobsDB" },
     hero: { greeting: "Hi, I’m Genevieve", heading: "AI engineer, researcher & curious builder.", location: "Based in", lede: "I work across machine learning, biomedical AI, financial-data automation, and applied research to solve practical problems with care.", work: "View my work", email: "Email me", profile: "Canadian · Hong Kong since 2022 · English / Cantonese / Mandarin", degree: "BSc Biomedical Engineering", major: "Secondary Major in Artificial Intelligence & Data Analytics", masters: "MSc Artificial Intelligence", caption: "Hong Kong / Canada · photography / city life", skills: ["Machine Learning", "Applied AI", "Data Automation"] },
-    work: { eyebrow: "01 / WORK EXPERIENCE", title: "Where technical work met a real operating context.", intro: "Expandable entries keep the page calm while preserving the details: professional automation, research software, scientific data, and disciplined data collection.", professional: "Professional practice", research: "Research software", scientific: "Scientific data", clinical: "Clinical research" },
-    projects: { eyebrow: "02 / PROJECT EXPERIENCE", title: "Technical projects, explored by capability.", intro: "Filter across overlapping capabilities, then open a project for its overview, evidence, technical details, and supplied artwork.", filters: { all: "ALL", machineLearning: "MACHINE LEARNING", computerVision: "COMPUTER VISION", llm: "LLM", biosignals: "BIOSIGNALS", aiSystems: "AI SYSTEMS" }, contribution: "Contribution", methods: "Methods", highlights: "Project highlights", filterLabel: "Filter project experience" },
+    work: { eyebrow: "01 / EXPERIENCE", title: "Where technical work meets real operating contexts.", intro: "A closer look at the automation, research software, scientific data and clinical work I have taken on.", professional: "Professional practice", research: "Research software", scientific: "Scientific data", clinical: "Clinical research" },
+    projects: { eyebrow: "02 / PROJECTS", title: "Projects built to answer practical questions.", intro: "Browse by capability, then open a project to see what it does, why it matters and how I built it.", filters: { all: "ALL", machineLearning: "MACHINE LEARNING", computerVision: "COMPUTER VISION", llm: "LLM", llmApplications: "LLM APPLICATIONS", biosignals: "BIOSIGNALS", dataAnalytics: "DATA ANALYTICS", aiSystems: "AI SYSTEMS", biomedicalEngineering: "BIOMEDICAL ENGINEERING" }, contribution: "My Contribution", methods: "Methods & Tools", highlights: "Project highlights", filterLabel: "Filter projects" },
     academic: { eyebrow: "ACADEMIC JOURNEY", title: "The academic foundation behind my work.", cue: "Scroll to trace the journey", polyu: "The Hong Kong Polytechnic University", hkust: "The Hong Kong University of Science and Technology", polyuDegree: "BSc Biomedical Engineering", majorLabel: "Secondary Major in", major: "Artificial Intelligence & Data Analytics", honours: "First Class Honours", gpa: "GPA 3.67 / 4.30", periodPolyu: "Aug 2022 – Jun 2026", periodHkust: "Sep 2026 – Expected 2027", bridge: "THE BRIDGE · SECONDARY MAJOR IN", masters: "MSc Artificial Intelligence", undergraduate: "UNDERGRADUATE HIGHLIGHTS", context: "POLYU · 2022–2026", recognition: "ACADEMIC RECOGNITION", deans: "Dean’s List", deansPeriod: "2023–24 · 2024–25", research: "FIRST-AUTHOR RESEARCH", brain: "BRAIN SCIENCE RESEARCH", prize: "Third Prize · English Group", parkin: "PARKINCARE", award: "Best Engineered Product Award", degreeCredential: "View degree credential", awardCredential: "View award certificate", supportingDocument: "SUPPORTING DOCUMENT", closeCredential: "Close credential viewer" },
     reading: { eyebrow: "SELECTED READING", title: "What I’m reading beyond the curriculum.", intro: "I like using books to explore ideas outside formal coursework — from economics and markets to practical data skills.", titles: "titles in the deck", hover: "Hover, then open a card", previous: "Open previous book", next: "Open next book", openNote: "Open reading note", noteOpen: "Reading note open", close: "Close reading note", examining: "NOW EXAMINING", archive: "CURATED CARD SPREAD", move: "Move across the deck to shift its emphasis" },
     beyond: { eyebrow: "BEYOND WORK", title: "Portrait photography & visual stories.", intro: "I create portrait photography content around people, atmosphere and city life. Travel photographs become a separate visual diary: small studies to keep from the road.", creator: "Photography Content Creator", stats: "3.5K+ followers · 74K+ likes & saves", profile: "View photography profile ↗", notes: "TRAVEL NOTES", notesSubtitle: "Small visual studies from the road.", works: "08 works", open: "Open artwork", click: "Click an artwork to enlarge", scroll: "Horizontal scroll →", closing: "A few things I notice when I’m not looking at a dataset.", viewer: "Travel note viewer", close: "Close artwork viewer", previous: "Previous artwork", next: "Next artwork" },
@@ -152,11 +153,13 @@ const localizedUi = {
   ...naturalUi,
   "zh-CN": {
     ...naturalUi["zh-CN"],
+    projects: { ...naturalUi["zh-CN"].projects, filters: { ...naturalUi["zh-CN"].projects.filters, llmApplications: "LLM 应用", dataAnalytics: "数据分析", biomedicalEngineering: "生物医学工程" }, contribution: "我的工作", methods: "方法与工具" },
     hero: { ...naturalUi["zh-CN"].hero, major: "第二专业：人工智能与数据分析" },
     academic: { ...naturalUi["zh-CN"].academic, majorLabel: "第二专业", bridge: "" },
   },
   "zh-HK": {
     ...naturalUi["zh-HK"],
+    projects: { ...naturalUi["zh-HK"].projects, filters: { ...naturalUi["zh-HK"].projects.filters, llmApplications: "LLM 應用", dataAnalytics: "數據分析", biomedicalEngineering: "生物醫學工程" }, contribution: "我的工作", methods: "方法與工具" },
     hero: { ...naturalUi["zh-HK"].hero, major: "第二專業：人工智能與數據分析" },
     academic: { ...naturalUi["zh-HK"].academic, majorLabel: "第二專業", bridge: "" },
   },
@@ -169,7 +172,7 @@ const localizeWork = (locale: "zh-CN" | "zh-HK") => naturalWorkContent[locale].m
 });
 
 const mergeProjectCopy = (locale: Locale, base: Record<string, ProjectNarrative>) => Object.fromEntries(
-  Object.entries(base).map(([slug, project]) => [slug, { ...project, ...(projectNarratives[locale][slug] ?? {}) }]),
+  Object.entries(base).map(([slug, project]) => [slug, { ...project, ...(projectNarratives[locale][slug] ?? {}), ...(projectCaseStudies[locale][slug] ?? {}) }]),
 ) as Record<string, ProjectNarrative>;
 
 export const workContent = { en: baseWorkContent.en, "zh-CN": localizeWork("zh-CN"), "zh-HK": localizeWork("zh-HK") } as const;
